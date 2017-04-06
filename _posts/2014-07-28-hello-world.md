@@ -3,6 +3,16 @@ layout: post
 title: Hello world!
 ---
 
-This is my first launch for a blog using a VPS. I've still not completely determined what would exist in these netherealms of the internet; in general, however, it would examine any current thoughts relevant to an activity I am doing—whether that be statistical concepts, data science code tricks, machine learning tools, or even my hobbies in fiction and programming.
+Hello World!
 
-I love personal blogs and I love the ability to analyze topics and even jot down interesting ideas you've run across in an article format. I used to own a personal Wordpress blog for two years but dreaded the bloat and awkward functionality. Now with Ghost (and all the advantages of your own dedicated CMS compared to that of Medium's, Wordpress.com's, etc.), I'm excited to see how I'll take advantage of this.
+This is my first blog post. My name is Raza Habib and I'm a PhD student at UCL
+studying Machine Learning under [David Barber](http://web4.cs.ucl.ac.uk/staff/D.Barber/pmwiki/pmwiki.php).
+
+I'm interested in Artificial (General) Intelligence, Machine Learning, Physics, Philosophy of
+Science and the study of consciousness.
+
+This blog will be a mixture of shorter technical posts explaining important ideas
+within machine learning interspersed with more speculative musings about the bigger picture
+questions that arise when studying computational intelligence.
+
+The layout of this blog is heavily inspired by [Dustin Tran's](http://dustintran.com/) blog.
