@@ -10,6 +10,8 @@ Times](http://www.nytimes.com/), and the
 cue from Paul Graham's [essays](http://paulgraham.com/articles.html)
 and Cosma Shalizi's [notebooks](http://bactra.org/notebooks/).
 
+I have more or less borrowed the theme wholesale from [Dustin Tran](https://dustintran.com)
+
 The following Jekyll plugins are used:
 
 + [KaTeX](https://khan.github.io/KaTeX/), Google Fonts, Google Analytics, Normalize, Pygments (comes with TypeTheme)
