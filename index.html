@@ -5,7 +5,7 @@ layout: default
 <div class="home">
   {% if site.theme_settings.header_text %}
   <div class="call-out"
-  style="background-image: url('{{ site.baseurl }}/{{ site.theme_settings.header_text_feature_image }}')">
+  style="background-image: url('{{ site.github.baseurl }}/{{ site.theme_settings.header_text_feature_image }}')">
     {{ site.theme_settings.header_text }}
   </div>
   {% endif %}
@@ -19,7 +19,7 @@ layout: default
       {% for post in site.posts %}
       <tr>
         <td style="width:25%;border:none;"><i class="icon-clock"></i> {{ post.date | date: "%b %d, %Y" }}</td>
-        <td style="border:none;"><a class="post-link plain" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></td>
+        <td style="border:none;"><a class="post-link plain" href="{{ post.url | prepend: site.github.baseurl }}">{{ post.title }}</a></td>
       </tr>
       {% endfor %}
     </table>
