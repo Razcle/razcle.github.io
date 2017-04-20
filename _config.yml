@@ -12,13 +12,13 @@ theme_settings:
   description:
 
   header_text:
-  header_text_feature_image:
+  header_text_feature_image: photo.jpg
   footer_text: >
     © 2016 ・ <a class="plain" href="https://github.com/Razcle">Raza</a>
 
   # Icons
   rss: false
-  email_address:
+  email_address:raza.habib@cs.ucl.ac.uk
   behance:
   bitbucket:
   dribbble:
