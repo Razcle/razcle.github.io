@@ -5,7 +5,44 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/</link>
     <description></description>
-    <pubDate>Thu, 20 Apr 2017 14:48:07 +0100</pubDate>
+    <pubDate>Thu, 20 Apr 2017 19:44:50 +0100</pubDate>
+    
+      <item>
+        <title>Intuition for Jensen's Inequality</title>
+        <link>/jensen</link>
+        <guid isPermaLink="true">/jensen</guid>
+        <description>&lt;p&gt;I want to share some neat intuition that I came across in David Mackay’s text book
+about Jensen’s inequality. Jensen’s inequality is a simple enough inequality that crops up frequently in
+machine learning, especially in variational methods, when one wants to bound an
+expectation.&lt;/p&gt;
+
+&lt;p&gt;Jensen states that:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E[f(x)] \geq f(E[x])&lt;/script&gt;
+
+&lt;p&gt;for any convex function f.&lt;/p&gt;
+
+&lt;p&gt;Writing this out more verbosely it states (for discrete distributions):&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\sum f(x_i) p_i  \geq f(\sum x_i p_i)&lt;/script&gt;
+
+&lt;p&gt;Where &lt;script type=&quot;math/tex&quot;&gt;p_i = P(X = x_i)&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now if we imagine that we place a mass of size &lt;script type=&quot;math/tex&quot;&gt;p_i&lt;/script&gt; along the curve &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; at each of
+the coordinates &lt;script type=&quot;math/tex&quot;&gt;(x_i, f(x_i))&lt;/script&gt; then &lt;script type=&quot;math/tex&quot;&gt;\sum f(x_i) p_i&lt;/script&gt; is simply the y-coordinate of the
+centre of mass (remember &lt;script type=&quot;math/tex&quot;&gt;\sum p_i = 1&lt;/script&gt;). The &lt;script type=&quot;math/tex&quot;&gt;\sum x_i p_i&lt;/script&gt; is the x-coordinate.&lt;/p&gt;
+
+&lt;p&gt;Viewed this way, all that Jensen’s inequality says is that for any convex curve, the centre of mass
+of masses placed on the curve, must lie above the curve. That seems intuitively obvious to me in a way that
+isn’t at first clear from staring at the inequality.&lt;/p&gt;
+
+&lt;p&gt;The picture below shows some masses placed on a convex curve along with their centre of mass in 2-d.
+It’s hopefully pretty obvious that the centre of mass of these masses has to lie above the curve (and its shown with a cross).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/jensenplot.jpg&quot; alt=&quot;my plot&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 20 Apr 2017 00:00:00 +0100</pubDate>
+      </item>
     
       <item>
         <title>Hello world!</title>
