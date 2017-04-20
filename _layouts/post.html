@@ -11,7 +11,7 @@ layout: default
         {% if page.author %}
           {{ page.author }}
         {% else %}
-          <a class="author-name" href="{{ site.url }}">{{ site.theme_settings.author }}</a>
+          <a class="author-name" href="{{ site.github.url }}">{{ site.theme_settings.author }}</a>
         {% endif %}
       </span>
       <span class="date">{{ page.date | date: "%b %-d, %Y" }}</span>
@@ -27,7 +27,7 @@ layout: default
 {% if site.theme_settings.post_navigation %}
 <div id="post-nav">
     {% if page.previous.url %}
-    <a id="prev-post" href="{{ site.baseurl }}{{ page.previous.url }}">
+    <a id="prev-post" href="{{ site.github.baseurl }}{{ page.previous.url }}">
       <span class="page-title">{{ page.previous.title }}</span>
       <span class="nav-label">
         <i class="fa fa-chevron-left"></i> {{ site.theme_settings.str_prev }}
@@ -35,7 +35,7 @@ layout: default
     </a>
     {% endif %}
     {% if page.next.url %}
-    <a id="next-post" href="{{ site.baseurl }}{{ page.next.url }}">
+    <a id="next-post" href="{{ site.github.baseurl }}{{ page.next.url }}">
        <span class="page-title">{{ page.next.title }}</span>
        <span class="nav-label">
         {{ site.theme_settings.str_next }} <i class="fa fa-chevron-right"></i>
