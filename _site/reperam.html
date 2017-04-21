@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+	<meta charset="utf-8">
+	<title>The Reparamaterisation Trick | Raza Habib</title>
+	<meta name="description" content="Machine learning is full of lots of seemingly simple mathematical “tricks” thathave a disproportionate usefulness relative to their complexity. The Reparamat...">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-Frame-Options" content="sameorigin">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/main.css">
+
+	<!--Favicon-->
+	<link rel="shortcut icon" href="/logo.png" type="image/x-icon">
+
+	<!-- Canonical -->
+	<link rel="canonical" href="/reperam">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/atom+xml" title="Raza Habib" href="/feed.xml" />
+
+	<!-- Font Awesome -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	
+	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+	
+
+	<!-- KaTeX -->
+	
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+	
+
+	<!-- Google Analytics -->
+	
+</head>
+
+  <body>
+    <header class="site-header">
+	<div class="branding">
+		
+		<a href="/">
+			<img class="avatar" src="/img/photo.jpg" alt=""/>
+		</a>
+		
+		<h1 class="site-title">
+			<a href="/">Raza Habib</a>
+		</h1>
+	</div>
+	<nav class="site-nav">
+		<ul>
+                        <!-- <li>
+				<a class="page-link" href="http://localhost:4000">
+					about　
+				</a>
+			</li> -->
+			
+			
+			
+			
+			<li>
+				<a class="page-link" href="/about/">
+					About
+				</a>
+			</li>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<!-- Social icons from Font Awesome, if enabled -->
+			
+
+
+<li>
+	<a href="mailto:raza.habib@cs.ucl.ac.uk" title="Email">
+		<i class="fa fa-fw fa-envelope"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/razcle" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</ul>
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header style="background-image: url('/')">
+    <h1 class="title">The Reparamaterisation Trick</h1>
+    <div style="padding-top:3%;"></div>
+    <div class="meta">
+      <span class="author">
+        By
+        
+          <a class="author-name" href="">Raza Habib</a>
+        
+      </span>
+      <span class="date">Apr 21, 2017</span>
+      <ul>
+        
+
+
+<li>
+	<a href="mailto:raza.habib@cs.ucl.ac.uk" title="Email">
+		<i class="fa fa-fw fa-envelope"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/razcle" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </ul>
+    </div>
+  </header>
+  <section class="post-content"><p>Machine learning is full of lots of seemingly simple mathematical “tricks” that
+have a disproportionate usefulness relative to their complexity. The Reparamaterisation
+trick is one of these. In the next few posts I want to go into more detail about
+variational auto-encoders and the trick will come up there again but for the time
+being I just want to present a neat and useful “trick” that I think can be confusing
+when you first come across it.</p>
+
+<p>Often times in machine learning we want to estimate the gradient of an expectation
+using sampling. This happens in reinforcement learning when doing policy gradients and in stochastic
+variational inference. The problem we are trying to solve is to find:</p>
+
+<script type="math/tex; mode=display">\nabla_\theta E_{p(x)}[f(x)].</script>
+
+<p>As long as <script type="math/tex">p(x)</script> is independent of <script type="math/tex">\theta</script> there’s no problem here, we can
+use Leibniz rule and simply bring the derivative into the expectation like follows:</p>
+
+<script type="math/tex; mode=display">E_{p(x)}[\nabla_\theta f_\theta(x)]</script>
+
+<p>and then construct a monte-carlo estimate for the gradient:</p>
+
+<script type="math/tex; mode=display">E_{p(x)}[\nabla_\theta f_\theta(x)] \approx \sum_i \nabla_\theta f_\theta(x_i)</script>
+
+<p>where <script type="math/tex">x_i</script> is sampled from <script type="math/tex">p(x)</script>. If however, as is often the case, the distribution
+depends on <script type="math/tex">\theta</script>. i.e <script type="math/tex">P(x) = P(x|\theta)</script>, then the above trick wont work because after
+you bring the derivative inside the integral (or sum), the new integral is no longer an expectation
+and we cant construct a straightforward monte-carlo estimate.</p>
+
+<p>There are two ways to get around this. The first is used in the Reinforce algorithm and is known
+as the log derivative trick. It relies on using the following identity, which is easy to verify:</p>
+
+<script type="math/tex; mode=display">\nabla_\theta f(\theta) \equiv f(\theta)\nabla_\theta log f(\theta)</script>
+
+<p>If we substitute this identity then we get:</p>
+
+<script type="math/tex; mode=display">E_{p(x)}[\nabla_\theta f(x)] = E_{p_{\theta}(x)}[f(x)\nabla_\theta log p_{\theta}(x)]</script>
+
+<p>and since this is still an expectation we can again construct a simple monte-carlo estimate of the gradient.</p>
+
+<script type="math/tex; mode=display">E_{p_{\theta}(x)}[f(x)\nabla_\theta log p_{\theta}(x)] \approx \sum_i f(x_i)\nabla_\theta log p_{\theta}(x_i)</script>
+
+<p>job done right? well sometimes yes but sometimes this naive substitution yields a gradient estimate that is too high
+variance to be useful. In those cases we can turn to the reparamaterisation trick.</p>
+
+<p>The idea behind the reparamaterisation trick is write <script type="math/tex">x \sim p_\theta(x)</script> as a function of a varible <script type="math/tex">z \sim q(z)</script> where <script type="math/tex">q(z)</script> does not depend
+on <script type="math/tex">\theta</script>. If we can do this, then we are back in the first situation we considered where the gradient operator can simply be brought into
+the expectation without any complexity. Put another way we want to find a differentiable function <script type="math/tex">\phi_\theta(z)</script> such that:</p>
+
+<script type="math/tex; mode=display">p_\theta(x) = q(\phi_\theta(z))</script>
+
+<p>where <script type="math/tex">q</script> is a distribution that has no <script type="math/tex">\theta</script> dependence. An example of such a function would
+be the following reparamaterisation of a normal distribution <script type="math/tex">P_\theta(x) = N_x(\mu, \Sigma)</script>, where what we were calling <script type="math/tex">\theta</script> is
+now <script type="math/tex">\mu</script> and <script type="math/tex">\Sigma</script>. In this case if we define:</p>
+
+<script type="math/tex; mode=display">\phi_\theta(z) = \mu + \Sigma^{\frac{1}{2}}z</script>
+
+<p>and then sample <script type="math/tex">z \sim q(z)= N_z(0,I)</script>, we then have that <script type="math/tex">p_\theta(x) = q(\phi_\theta(z))</script>.</p>
+
+<p>Once we’ve made this reparamaterisation we can return to our original problem and see that the issues have disappeared.</p>
+
+<script type="math/tex; mode=display">\nabla_\theta E_{p_\theta(x)}[f(x)] = \nabla_\theta E_{q(z)}[f(\phi_\theta(z))] \approx \sum_i \nabla_\theta f(\phi_\theta(z))</script>
+
+<p>with <script type="math/tex">z \sim q(z)</script>. Or more concretely for our Gaussian case:</p>
+
+<script type="math/tex; mode=display">\nabla_{\mu,\Sigma} E_{N_x(\mu, \Sigma)}[f(x)] = \nabla_{\mu,\Sigma} E_{N_z(0,I)}[f(\mu + \Sigma^{\frac{1}{2}}z)] \approx \sum_i \nabla_{\mu,\Sigma} f(\mu + \Sigma^{\frac{1}{2}}z_i)</script>
+
+<p>where <script type="math/tex">z \sim N_z(0,I)</script>.</p>
+
+<p>It might at first seem that constructing these reparamaterisations might be very hard. In fact for discrete distributions, it is very
+hard and in a later post we may discuss ways around this such as the Gumbel Softmax. However for continuos distributions when
+you consider the fact that most random number generators first generate uniform distributed variables and
+transform them, you realise that a lot of complex distributions can be built straightforwardly from simpler
+distributions.</p>
+</section>
+</article>
+
+<!-- Post navigation -->
+
+
+<!-- Disqus -->
+
+
+    </div>
+    
+<script src="/js/katex_init.js"></script>
+
+
+
+<footer class="site-footer">
+	<p class="text">© 2016 ・ <a class="plain" href="https://github.com/Razcle">Raza</a>
+</p>
+</footer>
+
+
+  </body>
+</html>

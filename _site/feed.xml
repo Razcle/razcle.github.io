@@ -5,7 +5,87 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/blog/</link>
     <description></description>
-    <pubDate>Fri, 21 Apr 2017 09:29:51 +0100</pubDate>
+    <pubDate>Fri, 21 Apr 2017 09:32:17 +0100</pubDate>
+    
+      <item>
+        <title>The Reparamaterisation Trick</title>
+        <link>/reperam</link>
+        <guid isPermaLink="true">/reperam</guid>
+        <description>&lt;p&gt;Machine learning is full of lots of seemingly simple mathematical “tricks” that
+have a disproportionate usefulness relative to their complexity. The Reparamaterisation
+trick is one of these. In the next few posts I want to go into more detail about
+variational auto-encoders and the trick will come up there again but for the time
+being I just want to present a neat and useful “trick” that I think can be confusing
+when you first come across it.&lt;/p&gt;
+
+&lt;p&gt;Often times in machine learning we want to estimate the gradient of an expectation
+using sampling. This happens in reinforcement learning when doing policy gradients and in stochastic
+variational inference. The problem we are trying to solve is to find:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_\theta E_{p(x)}[f(x)].&lt;/script&gt;
+
+&lt;p&gt;As long as &lt;script type=&quot;math/tex&quot;&gt;p(x)&lt;/script&gt; is independent of &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; there’s no problem here, we can
+use Leibniz rule and simply bring the derivative into the expectation like follows:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{p(x)}[\nabla_\theta f_\theta(x)]&lt;/script&gt;
+
+&lt;p&gt;and then construct a monte-carlo estimate for the gradient:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{p(x)}[\nabla_\theta f_\theta(x)] \approx \sum_i \nabla_\theta f_\theta(x_i)&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;x_i&lt;/script&gt; is sampled from &lt;script type=&quot;math/tex&quot;&gt;p(x)&lt;/script&gt;. If however, as is often the case, the distribution
+depends on &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;. i.e &lt;script type=&quot;math/tex&quot;&gt;P(x) = P(x|\theta)&lt;/script&gt;, then the above trick wont work because after
+you bring the derivative inside the integral (or sum), the new integral is no longer an expectation
+and we cant construct a straightforward monte-carlo estimate.&lt;/p&gt;
+
+&lt;p&gt;There are two ways to get around this. The first is used in the Reinforce algorithm and is known
+as the log derivative trick. It relies on using the following identity, which is easy to verify:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_\theta f(\theta) \equiv f(\theta)\nabla_\theta log f(\theta)&lt;/script&gt;
+
+&lt;p&gt;If we substitute this identity then we get:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{p(x)}[\nabla_\theta f(x)] = E_{p_{\theta}(x)}[f(x)\nabla_\theta log p_{\theta}(x)]&lt;/script&gt;
+
+&lt;p&gt;and since this is still an expectation we can again construct a simple monte-carlo estimate of the gradient.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{p_{\theta}(x)}[f(x)\nabla_\theta log p_{\theta}(x)] \approx \sum_i f(x_i)\nabla_\theta log p_{\theta}(x_i)&lt;/script&gt;
+
+&lt;p&gt;job done right? well sometimes yes but sometimes this naive substitution yields a gradient estimate that is too high
+variance to be useful. In those cases we can turn to the reparamaterisation trick.&lt;/p&gt;
+
+&lt;p&gt;The idea behind the reparamaterisation trick is write &lt;script type=&quot;math/tex&quot;&gt;x \sim p_\theta(x)&lt;/script&gt; as a function of a varible &lt;script type=&quot;math/tex&quot;&gt;z \sim q(z)&lt;/script&gt; where &lt;script type=&quot;math/tex&quot;&gt;q(z)&lt;/script&gt; does not depend
+on &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;. If we can do this, then we are back in the first situation we considered where the gradient operator can simply be brought into
+the expectation without any complexity. Put another way we want to find a differentiable function &lt;script type=&quot;math/tex&quot;&gt;\phi_\theta(z)&lt;/script&gt; such that:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p_\theta(x) = q(\phi_\theta(z))&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;q&lt;/script&gt; is a distribution that has no &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; dependence. An example of such a function would
+be the following reparamaterisation of a normal distribution &lt;script type=&quot;math/tex&quot;&gt;P_\theta(x) = N_x(\mu, \Sigma)&lt;/script&gt;, where what we were calling &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; is
+now &lt;script type=&quot;math/tex&quot;&gt;\mu&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;\Sigma&lt;/script&gt;. In this case if we define:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\phi_\theta(z) = \mu + \Sigma^{\frac{1}{2}}z&lt;/script&gt;
+
+&lt;p&gt;and then sample &lt;script type=&quot;math/tex&quot;&gt;z \sim q(z)= N_z(0,I)&lt;/script&gt;, we then have that &lt;script type=&quot;math/tex&quot;&gt;p_\theta(x) = q(\phi_\theta(z))&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;Once we’ve made this reparamaterisation we can return to our original problem and see that the issues have disappeared.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_\theta E_{p_\theta(x)}[f(x)] = \nabla_\theta E_{q(z)}[f(\phi_\theta(z))] \approx \sum_i \nabla_\theta f(\phi_\theta(z))&lt;/script&gt;
+
+&lt;p&gt;with &lt;script type=&quot;math/tex&quot;&gt;z \sim q(z)&lt;/script&gt;. Or more concretely for our Gaussian case:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_{\mu,\Sigma} E_{N_x(\mu, \Sigma)}[f(x)] = \nabla_{\mu,\Sigma} E_{N_z(0,I)}[f(\mu + \Sigma^{\frac{1}{2}}z)] \approx \sum_i \nabla_{\mu,\Sigma} f(\mu + \Sigma^{\frac{1}{2}}z_i)&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;z \sim N_z(0,I)&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;It might at first seem that constructing these reparamaterisations might be very hard. In fact for discrete distributions, it is very
+hard and in a later post we may discuss ways around this such as the Gumbel Softmax. However for continuos distributions when
+you consider the fact that most random number generators first generate uniform distributed variables and
+transform them, you realise that a lot of complex distributions can be built straightforwardly from simpler
+distributions.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 21 Apr 2017 00:00:00 +0100</pubDate>
+      </item>
     
       <item>
         <title>Intuition for Jensen's Inequality</title>
