@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/blog/</link>
     <description></description>
-    <pubDate>Fri, 21 Apr 2017 12:40:09 +0100</pubDate>
+    <pubDate>Fri, 21 Apr 2017 12:41:45 +0100</pubDate>
     
       <item>
         <title>The Reparamaterisation Trick</title>
@@ -41,7 +41,7 @@ and we cant construct a straightforward monte-carlo estimate.&lt;/p&gt;
 &lt;p&gt;There are two ways to get around this. The first is used in the Reinforce algorithm and is known
 as the log derivative trick. It relies on using the following identity, which is easy to verify:&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_\theta g(\theta) \equiv g(\theta)\nabla_\theta log g(\theta)&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_\theta g(\theta) \equiv g(\theta)\nabla_\theta log (g(\theta))&lt;/script&gt;
 
 &lt;p&gt;If we substitute this identity for &lt;script type=&quot;math/tex&quot;&gt;\nabla_\theta p_\theta(x)&lt;/script&gt; in the following equation then we get:&lt;/p&gt;
 
