@@ -265,7 +265,7 @@ x_t^i x_{t+1}^j log A_{ij} + x_t^i y_t^j log B_{ij}</script>
 <script type="math/tex">\mathcal{Y}</script>. In fact all we really need is the log normaliser <script type="math/tex">Z = log \sum_y P(\mathcal{Y},\mathcal{X})</script>.
 Once we have the normaliser we can take its derivative and this will automatically take care of all our message passing for us.</p>
 
-<p>Thats exactly what the autgrad libarary does in the following exaple:</p>
+<p>Thats exactly what the autgrad libarary does in the following example:</p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># First get the log partition function</span>
 <span class="k">def</span> <span class="nf">log_partition_function</span><span class="p">(</span><span class="n">natural_params</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>

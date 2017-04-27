@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/</link>
     <description></description>
-    <pubDate>Thu, 27 Apr 2017 14:32:13 +0100</pubDate>
+    <pubDate>Thu, 27 Apr 2017 14:34:21 +0100</pubDate>
     
       <item>
         <title>Autodiff Can Do Your Inference For You</title>
@@ -75,7 +75,7 @@ x_t^i x_{t+1}^j log A_{ij} + x_t^i y_t^j log B_{ij}&lt;/script&gt;
 &lt;script type=&quot;math/tex&quot;&gt;\mathcal{Y}&lt;/script&gt;. In fact all we really need is the log normaliser &lt;script type=&quot;math/tex&quot;&gt;Z = log \sum_y P(\mathcal{Y},\mathcal{X})&lt;/script&gt;.
 Once we have the normaliser we can take its derivative and this will automatically take care of all our message passing for us.&lt;/p&gt;
 
-&lt;p&gt;Thats exactly what the autgrad libarary does in the following exaple:&lt;/p&gt;
+&lt;p&gt;Thats exactly what the autgrad libarary does in the following example:&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# First get the log partition function&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;log_partition_function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;natural_params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
