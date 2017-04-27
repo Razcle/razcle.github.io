@@ -258,7 +258,7 @@ transition probabilities <script type="math/tex">p(y_t=j|x_t=i)=B_{ij}</script>,
 <script type="math/tex; mode=display">logP(\mathcal{X},\mathcal{Y}) = \sum_i x_0^i log \pi_i + \sum_t \sum_{i,j}
 x_t^i x_{t+1}^j log A_{ij} + x_t^i y_t^j log B_{ij}</script>
 
-<p>where we have encoded the discrete latents using one-hot vectors. This is clearly in the exponential family with sufficient statistics <script type="math/tex">\sum_t x_t^T x_{t+1}</script>, <script type="math/tex">\sum_t x_t^T y_{t}</script> and <script type="math/tex">x_0</script>.</p>
+<p>where we have encoded the <script type="math/tex">x</script> and <script type="math/tex">y</script> using one-hot vectors. This is clearly in the exponential family with sufficient statistics <script type="math/tex">\sum_t x_t^T x_{t+1}</script>, <script type="math/tex">\sum_t x_t^T y_{t}</script> and <script type="math/tex">x_0</script>.</p>
 
 <p>To do inference what we need is the expectation of these statistics under
 <script type="math/tex">P(\mathcal{X}|\mathcal{Y})</script>. We can find <script type="math/tex">P(\mathcal{X}|\mathcal{Y})</script> by simply summing the joint over

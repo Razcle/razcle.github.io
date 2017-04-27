@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/</link>
     <description></description>
-    <pubDate>Thu, 27 Apr 2017 14:34:21 +0100</pubDate>
+    <pubDate>Thu, 27 Apr 2017 14:39:45 +0100</pubDate>
     
       <item>
         <title>Autodiff Can Do Your Inference For You</title>
@@ -68,7 +68,7 @@ transition probabilities &lt;script type=&quot;math/tex&quot;&gt;p(y_t=j|x_t=i)=
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;logP(\mathcal{X},\mathcal{Y}) = \sum_i x_0^i log \pi_i + \sum_t \sum_{i,j}
 x_t^i x_{t+1}^j log A_{ij} + x_t^i y_t^j log B_{ij}&lt;/script&gt;
 
-&lt;p&gt;where we have encoded the discrete latents using one-hot vectors. This is clearly in the exponential family with sufficient statistics &lt;script type=&quot;math/tex&quot;&gt;\sum_t x_t^T x_{t+1}&lt;/script&gt;, &lt;script type=&quot;math/tex&quot;&gt;\sum_t x_t^T y_{t}&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;x_0&lt;/script&gt;.&lt;/p&gt;
+&lt;p&gt;where we have encoded the &lt;script type=&quot;math/tex&quot;&gt;x&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;y&lt;/script&gt; using one-hot vectors. This is clearly in the exponential family with sufficient statistics &lt;script type=&quot;math/tex&quot;&gt;\sum_t x_t^T x_{t+1}&lt;/script&gt;, &lt;script type=&quot;math/tex&quot;&gt;\sum_t x_t^T y_{t}&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;x_0&lt;/script&gt;.&lt;/p&gt;
 
 &lt;p&gt;To do inference what we need is the expectation of these statistics under
 &lt;script type=&quot;math/tex&quot;&gt;P(\mathcal{X}|\mathcal{Y})&lt;/script&gt;. We can find &lt;script type=&quot;math/tex&quot;&gt;P(\mathcal{X}|\mathcal{Y})&lt;/script&gt; by simply summing the joint over
