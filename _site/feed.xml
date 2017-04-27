@@ -5,7 +5,115 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/blog/</link>
     <description></description>
-    <pubDate>Thu, 27 Apr 2017 15:36:04 +0100</pubDate>
+    <pubDate>Thu, 27 Apr 2017 16:11:39 +0100</pubDate>
+    
+      <item>
+        <title>Autodiff Can Do Your Inference For You</title>
+        <link>/autodiff0</link>
+        <guid isPermaLink="true">/autodiff0</guid>
+        <description>&lt;p&gt;Continuing with the theme of neat tricks that can be very useful in Machine Learning,
+I wanted to share another insight that I was made aware of by &lt;a href=&quot;https://github.com/j-towns&quot;&gt;Jamie Townsend&lt;/a&gt;
+who I think may have heard it from &lt;a href=&quot;http://people.csail.mit.edu/mattjj/&quot;&gt;Matthew Johnson&lt;/a&gt;. Jamie and Matthew are both contributors/authors of the Python &lt;a href=&quot;https://github.com/HIPS/autograd&quot;&gt;autograd&lt;/a&gt; package
+which lets you differentiate native Python. Hugely useful for prototyping.&lt;/p&gt;
+
+&lt;p&gt;The trick that Jamie pointed out to me is that for exponential family models, because the expected sufficient statistics
+are related straightforwardly to the derivative of the log-normaliser, you can do a lot of your inference with no extra
+effort by just leveraging automatic differentiation. I’ll very briefly recap the exponential family and the connection of derivatives to sufficient statistics before giving a quick example of just how easy this can be.&lt;/p&gt;
+
+&lt;h3 id=&quot;exponential-family-distributions&quot;&gt;Exponential Family distributions&lt;/h3&gt;
+&lt;p&gt;An exponential family distribution is just one that can be written in the following form:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(x|\theta) = g(\eta(\theta))f(x)e^{\eta(\theta)^T T(x)}&lt;/script&gt;
+
+&lt;p&gt;Where &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; are the standard parameters of the distribution, &lt;script type=&quot;math/tex&quot;&gt;\eta(\theta)&lt;/script&gt; is a function of those parameters and is known as
+the natural parameters and &lt;script type=&quot;math/tex&quot;&gt;T(x)&lt;/script&gt; are the sufficient statistics. &lt;script type=&quot;math/tex&quot;&gt;g(\theta)&lt;/script&gt; is simply the reciprocal of the normaliser.  Many if not most of the standard distributions we deal with can be written in this way eg. Normal, Poisson, Exponential, Laplacian, Bernoulli, Beta…&lt;/p&gt;
+
+&lt;h3 id=&quot;the-derivatives-of-log-normaliser-are-the-expected-sufficient-stats&quot;&gt;The Derivatives of Log-normaliser are the Expected Sufficient Stats&lt;/h3&gt;
+
+&lt;p&gt;There is a well known identity that says for the exponential family:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;-\nabla_{\eta} log(g(\eta)) = E_{p(x|\theta)}[T(x)]&lt;/script&gt;
+
+&lt;p&gt;which is fairly straightforward to show as follows:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;-\nabla_{\eta} log(g(\eta)) = g(\eta)\nabla_{\eta}\frac{1}{g(\eta)}&lt;/script&gt;
+
+&lt;p&gt;and we know that &lt;script type=&quot;math/tex&quot;&gt;g(\eta)&lt;/script&gt; is the inverse of the normaliser:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{1}{g(\eta)} = \int f(x)e^{\eta(\theta)^T T(x)} dx&lt;/script&gt;
+
+&lt;p&gt;and so:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_{\eta}\frac{1}{g(\eta)} = \int T(x) f(x)e^{\eta(\theta)^T T(x)} dx&lt;/script&gt;
+
+&lt;p&gt;Thus:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;-\nabla_{\eta} log(g(\eta)) = g(\eta)\nabla_{\eta}\frac{1}{g(\eta)} =
+\int T(x) g(\eta) f(x)e^{\eta(\theta)^T T(x)} dx = E_{p(x|\theta)}[T(x)]&lt;/script&gt;
+
+&lt;h3 id=&quot;using-auto-diff-to-do-your-inference&quot;&gt;Using auto-diff to do your inference&lt;/h3&gt;
+
+&lt;p&gt;Many times when doing inference of graphical models the expected sufficient statistics
+are actually exactly what we want. For example when we do the EM algorithm over jointly exponential family
+models, the E-step only requires us to find the expectations of the sufficient statistics under the posterior on the latents.&lt;/p&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;https://github.com/HIPS/autograd/blob/master/examples/hmm_em.py&quot;&gt;autograd&lt;/a&gt; library, there is a nice example of taking advantage of this fact to do inference in an HMM.
+Traditionally you would do your inference in an HMM using the forward-backward or Baum-Welch algorithm but the autograd library takes
+advantage of the exponential family structure to do all the inference using differentiation.&lt;/p&gt;
+
+&lt;p&gt;For an HMM with observed variables &lt;script type=&quot;math/tex&quot;&gt;y_{1:T}&lt;/script&gt;, discrete latents &lt;script type=&quot;math/tex&quot;&gt;x_{1:T}&lt;/script&gt; and
+transition probabilities &lt;script type=&quot;math/tex&quot;&gt;p(y_t=j|x_t=i)=B_{ij}&lt;/script&gt;,
+ &lt;script type=&quot;math/tex&quot;&gt;p(x_t|x_{t-1})=A_{ij}&lt;/script&gt;. The joint probability over all the &lt;script type=&quot;math/tex&quot;&gt;\mathcal{X}&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;\mathcal{Y}&lt;/script&gt; is given by:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;logP(\mathcal{X},\mathcal{Y}) = \sum_i x_0^i log \pi_i + \sum_t \sum_{i,j}
+x_t^i x_{t+1}^j log A_{ij} + x_t^i y_t^j log B_{ij}&lt;/script&gt;
+
+&lt;p&gt;where we have encoded the &lt;script type=&quot;math/tex&quot;&gt;x&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;y&lt;/script&gt; using one-hot vectors. This is clearly in the exponential family with sufficient statistics &lt;script type=&quot;math/tex&quot;&gt;\sum_t x_t^T x_{t+1}&lt;/script&gt;, &lt;script type=&quot;math/tex&quot;&gt;\sum_t x_t^T y_{t}&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;x_0&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;To do inference what we need is the expectation of these statistics under
+&lt;script type=&quot;math/tex&quot;&gt;P(\mathcal{X}|\mathcal{Y})&lt;/script&gt;. In fact all we really need is the log normaliser &lt;script type=&quot;math/tex&quot;&gt;Z = log \sum_x P(\mathcal{Y},\mathcal{X})&lt;/script&gt;.
+Once we have the normaliser we can take its derivative and this will automatically take care of all our backwards message passing for us.
+To calculate the log normaliser, we do the usual forwards pass and then sum all the forward messages.&lt;/p&gt;
+
+&lt;p&gt;Thats exactly what the autograd library does in the following example. You can find the rest of the code &lt;a href=&quot;https://github.com/HIPS/autograd/blob/master/examples/hmm_em.py&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# First get the log partition function&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;log_partition_function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;natural_params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;isinstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;partial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log_partition_function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;natural_params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;log_pi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;log_A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;log_B&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;natural_params&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;log_alpha&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;log_pi&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;log_alpha&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logsumexp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log_alpha&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;log_A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;log_B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logsumexp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log_alpha&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;and then you can do all the inference simply using gradients:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;EM_update&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+       &lt;span class=&quot;n&quot;&gt;natural_params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+       &lt;span class=&quot;c&quot;&gt;# E step&lt;/span&gt;
+       &lt;span class=&quot;n&quot;&gt;loglike&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;E_stats&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val_and_grad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log_partition_function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;natural_params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+       &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;callback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;callback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loglike&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+       &lt;span class=&quot;c&quot;&gt;# M step&lt;/span&gt;
+       &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;normalize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;E_stats&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;why-does-this-work&quot;&gt;Why does this work?&lt;/h3&gt;
+
+&lt;p&gt;At first it might seem a bit mysterious that we can replace a forwards and backwards
+message passing algorithm by auto-diff alone but the reason this works is because
+the sum product algorithm and reverse mode auto-diff are in fact very similar. Reverse mode
+auto-diff first does a forward pass to calculate the value of the function and then retraces the computation graph
+multiplying gradients along branches and summing at mergers in a backwards pass. This is highly analogous to the standard
+forward backwards algorithm.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 24 Apr 2017 00:00:00 +0100</pubDate>
+      </item>
     
       <item>
         <title>The Reparamaterisation Trick</title>
