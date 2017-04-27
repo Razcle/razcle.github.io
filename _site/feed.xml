@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/blog/</link>
     <description></description>
-    <pubDate>Thu, 27 Apr 2017 14:29:05 +0100</pubDate>
+    <pubDate>Thu, 27 Apr 2017 14:32:13 +0100</pubDate>
     
       <item>
         <title>Autodiff Can Do Your Inference For You</title>
@@ -49,7 +49,7 @@ the natural parameters and &lt;script type=&quot;math/tex&quot;&gt;T(x)&lt;/scri
 &lt;p&gt;Thus:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;-\nabla_{\eta} log(g(\eta)) = g(\eta)\nabla_{\eta}\frac{1}{g(\eta)} =
-\int T(x) g(x) f(x)e^{\eta(\theta)^T T(x)} dx = E_{p(x|\theta)}[T(x)]&lt;/script&gt;
+\int T(x) g(\eta) f(x)e^{\eta(\theta)^T T(x)} dx = E_{p(x|\theta)}[T(x)]&lt;/script&gt;
 
 &lt;h3 id=&quot;using-auto-diff-to-do-your-inference&quot;&gt;Using auto-diff to do your inference&lt;/h3&gt;
 
