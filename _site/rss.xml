@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/</link>
     <description></description>
-    <pubDate>Thu, 27 Apr 2017 14:25:18 +0100</pubDate>
+    <pubDate>Thu, 27 Apr 2017 14:29:05 +0100</pubDate>
     
       <item>
         <title>Autodiff Can Do Your Inference For You</title>
@@ -13,7 +13,7 @@
         <guid isPermaLink="true">/autodiff</guid>
         <description>&lt;p&gt;Continuing with the theme of neat tricks that can be very useful in Machine Learning,
 I wanted to share another insight that I was made aware of by &lt;a href=&quot;https://github.com/j-towns&quot;&gt;Jamie Townsend&lt;/a&gt;
-who I think may have heard it from &lt;a href=&quot;&quot;&gt;Matthew Johnson&lt;/a&gt;. Jamie and Matthew are both contributors/authors of the Python &lt;a href=&quot;https://github.com/HIPS/autograd&quot;&gt;autograd&lt;/a&gt; package
+who I think may have heard it from &lt;a href=&quot;http://people.csail.mit.edu/mattjj/&quot;&gt;Matthew Johnson&lt;/a&gt;. Jamie and Matthew are both contributors/authors of the Python &lt;a href=&quot;https://github.com/HIPS/autograd&quot;&gt;autograd&lt;/a&gt; package
 which lets you differentiate native Python. Hugely useful for prototyping.&lt;/p&gt;
 
 &lt;p&gt;The trick that Jamie pointed out to me is that for exponential family models, because the expected sufficient statistics
