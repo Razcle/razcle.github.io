@@ -5,40 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/blog/_layouts/about.md/blog/</link>
     <description></description>
-    <pubDate>Thu, 11 Jan 2018 19:26:58 +0000</pubDate>
-    
-      <item>
-        <title>Revision Notes 1 - Inference in the Ising Model</title>
-        <link>/revision-notes</link>
-        <guid isPermaLink="true">/revision-notes</guid>
-        <description>&lt;h2 id=&quot;the-plan&quot;&gt;The plan&lt;/h2&gt;
-
-&lt;p&gt;It’s been roughly a year now since I finished my masters in machine learning at UCL.
-It was an excellent course that I thoroughly enjoyed and covered an enormous range
-of different topics. Since starting the PhD I’ve been more focussed on a narrower
-set of problems but I dont want to lose the knowledge that I gained during my masters
-that I’m not using right at this moment. To try and keep fresh, I’ve decided to revise
-some of the material from my courses and make a few revision notes for myself.&lt;/p&gt;
-
-&lt;p&gt;Im going to post my notes on here in case they might be useful to others.
-Topics that I’d like to recap include:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Mean Field Variational Inference&lt;/li&gt;
-  &lt;li&gt;Variational Bayes&lt;/li&gt;
-  &lt;li&gt;Sparse GP approximations&lt;/li&gt;
-  &lt;li&gt;The Gaussian Process Latent Variable Model&lt;/li&gt;
-  &lt;li&gt;Loopy Belief propagation&lt;/li&gt;
-  &lt;li&gt;Expectation propogation&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I suspect that it’ll take me a long time to cover all of these and my primary focus
-is research but whenever I do have time, I’ll try to make some good notes on these topics
-and stick them here. They’ll generally be quite brief since they are meant to be revision
-summaries rather than full explanations.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 25 May 2017 00:00:00 +0100</pubDate>
-      </item>
+    <pubDate>Thu, 11 Jan 2018 20:08:48 +0000</pubDate>
     
       <item>
         <title>Autodiff Can Do Your Inference For You</title>
