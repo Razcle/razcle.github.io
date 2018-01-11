@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/</link>
     <description></description>
-    <pubDate>Thu, 11 Jan 2018 19:25:54 +0000</pubDate>
+    <pubDate>Thu, 11 Jan 2018 19:26:58 +0000</pubDate>
     
       <item>
         <title>Revision Notes 1 - Inference in the Ising Model</title>
@@ -36,10 +36,6 @@ Topics that I’d like to recap include:&lt;/p&gt;
 is research but whenever I do have time, I’ll try to make some good notes on these topics
 and stick them here. They’ll generally be quite brief since they are meant to be revision
 summaries rather than full explanations.&lt;/p&gt;
-
-&lt;p&gt;To start with, I’m going to make some notes on inference in Ising models.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-ising-model&quot;&gt;The Ising Model&lt;/h2&gt;
 </description>
         <pubDate>Thu, 25 May 2017 00:00:00 +0100</pubDate>
       </item>
