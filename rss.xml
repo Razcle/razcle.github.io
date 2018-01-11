@@ -1,22 +1,257 @@
----
-layout: null
----
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>{{ site.theme.title | xml_escape }}</title>
-    <atom:link href="{{ "/feed.xml" | prepend: site.github.baseurl | prepend: site.github.url }}" rel="self" type="application/rss+xml"/>
-    <link>{{ site.github.url }}{{ site.github.baseurl }}/</link>
-    <description>{{ site.theme.description | xml_escape }}</description>
-    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
-    {% for post in site.posts limit:15 %}
+    <title></title>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <link>/</link>
+    <description></description>
+    <pubDate>Thu, 11 Jan 2018 19:21:10 +0000</pubDate>
+    
       <item>
-        <title>{{ post.title | xml_escape }}</title>
-        <link>{{ post.url | prepend: site.github.baseurl | prepend: site.github.url }}</link>
-        <guid isPermaLink="true">{{ post.url | prepend: site.github.baseurl | prepend: site.github.url }}</guid>
-        <description>{{ post.content | xml_escape }}</description>
-        <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+        <title>Autodiff Can Do Your Inference For You</title>
+        <link>/autodiff0</link>
+        <guid isPermaLink="true">/autodiff0</guid>
+        <description>&lt;p&gt;Continuing with the theme of neat tricks that can be very useful in Machine Learning,
+I wanted to share another insight that I was made aware of by &lt;a href=&quot;https://github.com/j-towns&quot;&gt;Jamie Townsend&lt;/a&gt;
+who I think may have heard it from &lt;a href=&quot;http://people.csail.mit.edu/mattjj/&quot;&gt;Matthew Johnson&lt;/a&gt;. Jamie and Matthew are both contributors/authors of the Python &lt;a href=&quot;https://github.com/HIPS/autograd&quot;&gt;autograd&lt;/a&gt; package
+which lets you differentiate native Python. Hugely useful for prototyping.&lt;/p&gt;
+
+&lt;p&gt;The trick that Jamie pointed out to me is that for exponential family models, because the expected sufficient statistics
+are related straightforwardly to the derivative of the log-normaliser, you can do a lot of your inference with no extra
+effort by just leveraging automatic differentiation. I’ll very briefly recap the exponential family and the connection of derivatives to sufficient statistics before giving a quick example of just how easy this can be.&lt;/p&gt;
+
+&lt;h3 id=&quot;exponential-family-distributions&quot;&gt;Exponential Family distributions&lt;/h3&gt;
+&lt;p&gt;An exponential family distribution is just one that can be written in the following form:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(x|\theta) = g(\eta(\theta))f(x)e^{\eta(\theta)^T T(x)}&lt;/script&gt;
+
+&lt;p&gt;Where &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; are the standard parameters of the distribution, &lt;script type=&quot;math/tex&quot;&gt;\eta(\theta)&lt;/script&gt; is a function of those parameters and is known as
+the natural parameters and &lt;script type=&quot;math/tex&quot;&gt;T(x)&lt;/script&gt; are the sufficient statistics. &lt;script type=&quot;math/tex&quot;&gt;g(\theta)&lt;/script&gt; is simply the reciprocal of the normaliser.  Many if not most of the standard distributions we deal with can be written in this way eg. Normal, Poisson, Exponential, Laplacian, Bernoulli, Beta…&lt;/p&gt;
+
+&lt;h3 id=&quot;the-derivatives-of-log-normaliser-are-the-expected-sufficient-stats&quot;&gt;The Derivatives of Log-normaliser are the Expected Sufficient Stats&lt;/h3&gt;
+
+&lt;p&gt;There is a well known identity that says for the exponential family:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;-\nabla_{\eta} log(g(\eta)) = E_{p(x|\theta)}[T(x)]&lt;/script&gt;
+
+&lt;p&gt;which is fairly straightforward to show as follows:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;-\nabla_{\eta} log(g(\eta)) = g(\eta)\nabla_{\eta}\frac{1}{g(\eta)}&lt;/script&gt;
+
+&lt;p&gt;and we know that &lt;script type=&quot;math/tex&quot;&gt;g(\eta)&lt;/script&gt; is the inverse of the normaliser:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{1}{g(\eta)} = \int f(x)e^{\eta(\theta)^T T(x)} dx&lt;/script&gt;
+
+&lt;p&gt;and so:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_{\eta}\frac{1}{g(\eta)} = \int T(x) f(x)e^{\eta(\theta)^T T(x)} dx&lt;/script&gt;
+
+&lt;p&gt;Thus:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;-\nabla_{\eta} log(g(\eta)) = g(\eta)\nabla_{\eta}\frac{1}{g(\eta)} =
+\int T(x) g(\eta) f(x)e^{\eta(\theta)^T T(x)} dx = E_{p(x|\theta)}[T(x)]&lt;/script&gt;
+
+&lt;h3 id=&quot;using-auto-diff-to-do-your-inference&quot;&gt;Using auto-diff to do your inference&lt;/h3&gt;
+
+&lt;p&gt;Many times when doing inference of graphical models the expected sufficient statistics
+are actually exactly what we want. For example when we do the EM algorithm over jointly exponential family
+models, the E-step only requires us to find the expectations of the sufficient statistics under the posterior on the latents.&lt;/p&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;https://github.com/HIPS/autograd/blob/master/examples/hmm_em.py&quot;&gt;autograd&lt;/a&gt; library, there is a nice example of taking advantage of this fact to do inference in an HMM.
+Traditionally you would do your inference in an HMM using the forward-backward or Baum-Welch algorithm but the autograd library takes
+advantage of the exponential family structure to do all the inference using differentiation.&lt;/p&gt;
+
+&lt;p&gt;For an HMM with observed variables &lt;script type=&quot;math/tex&quot;&gt;y_{1:T}&lt;/script&gt;, discrete latents &lt;script type=&quot;math/tex&quot;&gt;x_{1:T}&lt;/script&gt; and
+transition probabilities &lt;script type=&quot;math/tex&quot;&gt;p(y_t=j|x_t=i)=B_{ij}&lt;/script&gt;,
+ &lt;script type=&quot;math/tex&quot;&gt;p(x_t|x_{t-1})=A_{ij}&lt;/script&gt;. The joint probability over all the &lt;script type=&quot;math/tex&quot;&gt;\mathcal{X}&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;\mathcal{Y}&lt;/script&gt; is given by:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;logP(\mathcal{X},\mathcal{Y}) = \sum_i x_0^i log \pi_i + \sum_t \sum_{i,j}
+x_t^i x_{t+1}^j log A_{ij} + x_t^i y_t^j log B_{ij}&lt;/script&gt;
+
+&lt;p&gt;where we have encoded the &lt;script type=&quot;math/tex&quot;&gt;x&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;y&lt;/script&gt; using one-hot vectors. This is clearly in the exponential family with sufficient statistics &lt;script type=&quot;math/tex&quot;&gt;\sum_t x_t^T x_{t+1}&lt;/script&gt;, &lt;script type=&quot;math/tex&quot;&gt;\sum_t x_t^T y_{t}&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;x_0&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;To do inference what we need is the expectation of these statistics under
+&lt;script type=&quot;math/tex&quot;&gt;P(\mathcal{X}|\mathcal{Y})&lt;/script&gt;. In fact all we really need is the log normaliser &lt;script type=&quot;math/tex&quot;&gt;Z = log \sum_x P(\mathcal{Y},\mathcal{X})&lt;/script&gt;.
+Once we have the normaliser we can take its derivative and this will automatically take care of all our backwards message passing for us.
+To calculate the log normaliser, we do the usual forwards pass and then sum all the forward messages.&lt;/p&gt;
+
+&lt;p&gt;Thats exactly what the autograd library does in the following example. You can find the rest of the code &lt;a href=&quot;https://github.com/HIPS/autograd/blob/master/examples/hmm_em.py&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# First get the log partition function&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;log_partition_function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;natural_params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;isinstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;partial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log_partition_function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;natural_params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;log_pi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;log_A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;log_B&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;natural_params&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;log_alpha&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;log_pi&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;log_alpha&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logsumexp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log_alpha&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;log_A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;log_B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logsumexp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log_alpha&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;and then you can do all the inference simply using gradients:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;EM_update&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+       &lt;span class=&quot;n&quot;&gt;natural_params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+       &lt;span class=&quot;c&quot;&gt;# E step&lt;/span&gt;
+       &lt;span class=&quot;n&quot;&gt;loglike&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;E_stats&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val_and_grad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log_partition_function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;natural_params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+       &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;callback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;callback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loglike&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+       &lt;span class=&quot;c&quot;&gt;# M step&lt;/span&gt;
+       &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;normalize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;E_stats&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;why-does-this-work&quot;&gt;Why does this work?&lt;/h3&gt;
+
+&lt;p&gt;At first it might seem a bit mysterious that we can replace a forwards and backwards
+message passing algorithm by auto-diff alone but the reason this works is because
+the sum product algorithm and reverse mode auto-diff are in fact very similar. Reverse mode
+auto-diff first does a forward pass to calculate the value of the function and then retraces the computation graph
+multiplying gradients along branches and summing at mergers in a backwards pass. This is highly analogous to the standard
+forward backwards algorithm.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 24 Apr 2017 00:00:00 +0100</pubDate>
       </item>
-    {% endfor %}
+    
+      <item>
+        <title>The Reparamaterisation Trick</title>
+        <link>/reperam</link>
+        <guid isPermaLink="true">/reperam</guid>
+        <description>&lt;p&gt;Machine learning is full of lots of seemingly simple mathematical “tricks” that
+have a disproportionate usefulness relative to their complexity. The Reparamaterisation
+trick is one of these. In the next few posts I want to go into more detail about
+variational auto-encoders and the trick will come up there again but for the time
+being I just want to present a neat and useful “trick” that I think can be confusing
+when you first come across it.&lt;/p&gt;
+
+&lt;p&gt;Often times in machine learning we want to estimate the gradient of an expectation
+using sampling. This happens in reinforcement learning when doing policy gradients and in stochastic
+variational inference. The problem we are trying to solve is to find:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_\theta E_{p(x)}[f(x)].&lt;/script&gt;
+
+&lt;p&gt;As long as &lt;script type=&quot;math/tex&quot;&gt;p(x)&lt;/script&gt; is independent of &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; there’s no problem here, we can
+use Leibniz rule and simply bring the derivative into the expectation like follows:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{p(x)}[\nabla_\theta f_\theta(x)]&lt;/script&gt;
+
+&lt;p&gt;and then construct a monte-carlo estimate for the gradient:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{p(x)}[\nabla_\theta f_\theta(x)] \approx \sum_i \nabla_\theta f_\theta(x_i)&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;x_i&lt;/script&gt; is sampled from &lt;script type=&quot;math/tex&quot;&gt;p(x)&lt;/script&gt;. If however, as is often the case, the distribution
+depends on &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;. i.e &lt;script type=&quot;math/tex&quot;&gt;P(x) = P(x|\theta)&lt;/script&gt;, then the above trick wont work because after
+you bring the derivative inside the integral (or sum), the new integral is no longer an expectation
+and we cant construct a straightforward monte-carlo estimate.&lt;/p&gt;
+
+&lt;p&gt;There are two ways to get around this. The first is used in the Reinforce algorithm and is known
+as the log derivative trick. It relies on using the following identity, which is easy to verify:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_\theta g(\theta) \equiv g(\theta)\nabla_\theta log (g(\theta))&lt;/script&gt;
+
+&lt;p&gt;If we substitute this identity for &lt;script type=&quot;math/tex&quot;&gt;\nabla_\theta p_\theta(x)&lt;/script&gt; in the following equation then we get:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_\theta E_{p_\theta(x)}[f(x)] = \int f(x)\nabla_\theta p_\theta(x) dx = \int f(x)p_\theta(x)\nabla_\theta log p_\theta(x) dx = E_{p_{\theta}(x)}[f(x)\nabla_\theta log p_{\theta}(x)]&lt;/script&gt;
+
+&lt;p&gt;and since this is still an expectation we can again construct a simple monte-carlo estimate of the gradient.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{p_{\theta}(x)}[f(x)\nabla_\theta log p_{\theta}(x)] \approx \sum_i f(x_i)\nabla_\theta log p_{\theta}(x_i)&lt;/script&gt;
+
+&lt;p&gt;job done right? well sometimes yes but sometimes this naive substitution yields a gradient estimate that is too high
+variance to be useful. In those cases we can turn to the reparamaterisation trick.&lt;/p&gt;
+
+&lt;p&gt;The idea behind the reparamaterisation trick is write &lt;script type=&quot;math/tex&quot;&gt;x \sim p_\theta(x)&lt;/script&gt; as a function of a varible &lt;script type=&quot;math/tex&quot;&gt;z \sim q(z)&lt;/script&gt; where &lt;script type=&quot;math/tex&quot;&gt;q(z)&lt;/script&gt; does not depend
+on &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;. If we can do this, then we are back in the first situation we considered where the gradient operator can simply be brought into
+the expectation without any complexity. Put another way we want to find a differentiable function &lt;script type=&quot;math/tex&quot;&gt;\phi_\theta(z)&lt;/script&gt; such that:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p_\theta(x) = q(\phi_\theta(z))&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;q&lt;/script&gt; is a distribution that has no &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; dependence. An example of such a function would
+be the following reparamaterisation of a normal distribution &lt;script type=&quot;math/tex&quot;&gt;P_\theta(x) = N_x(\mu, \Sigma)&lt;/script&gt;, where what we were calling &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; is
+now &lt;script type=&quot;math/tex&quot;&gt;\mu&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;\Sigma&lt;/script&gt;. In this case if we define:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\phi_\theta(z) = \mu + \Sigma^{\frac{1}{2}}z&lt;/script&gt;
+
+&lt;p&gt;and then sample &lt;script type=&quot;math/tex&quot;&gt;z \sim q(z)= N_z(0,I)&lt;/script&gt;, we then have that &lt;script type=&quot;math/tex&quot;&gt;p_\theta(x) = q(\phi_\theta(z))&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;Once we’ve made this reparamaterisation we can return to our original problem and see that the issues have disappeared.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_\theta E_{p_\theta(x)}[f(x)] = \nabla_\theta E_{q(z)}[f(\phi_\theta(z))] \approx \sum_i \nabla_\theta f(\phi_\theta(z))&lt;/script&gt;
+
+&lt;p&gt;with &lt;script type=&quot;math/tex&quot;&gt;z \sim q(z)&lt;/script&gt;. Or more concretely for our Gaussian case:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\nabla_{\mu,\Sigma} E_{N_x(\mu, \Sigma)}[f(x)] = \nabla_{\mu,\Sigma} E_{N_z(0,I)}[f(\mu + \Sigma^{\frac{1}{2}}z)] \approx \sum_i \nabla_{\mu,\Sigma} f(\mu + \Sigma^{\frac{1}{2}}z_i)&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;z \sim N_z(0,I)&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;It might at first seem that constructing these reparamaterisations might be very hard. In fact for discrete distributions, it is very
+hard and in a later post we may discuss ways around this such as the Gumbel Softmax. However for continuos distributions when
+you consider the fact that most random number generators first generate uniform distributed variables and
+transform them, you realise that a lot of complex distributions can be built straightforwardly from simpler
+distributions.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 21 Apr 2017 00:00:00 +0100</pubDate>
+      </item>
+    
+      <item>
+        <title>Intuition for Jensen's Inequality</title>
+        <link>/jensen</link>
+        <guid isPermaLink="true">/jensen</guid>
+        <description>&lt;p&gt;I want to share some neat intuition that I came across in David Mackay’s text book
+about Jensen’s inequality. Jensen’s inequality is a simple enough inequality that crops up frequently in
+machine learning, especially in variational methods, when one wants to bound an
+expectation.&lt;/p&gt;
+
+&lt;p&gt;Jensen states that:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E[f(x)] \geq f(E[x])&lt;/script&gt;
+
+&lt;p&gt;for any convex function f.&lt;/p&gt;
+
+&lt;p&gt;Writing this out more verbosely it states (for discrete distributions):&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\sum f(x_i) p_i  \geq f(\sum x_i p_i)&lt;/script&gt;
+
+&lt;p&gt;Where &lt;script type=&quot;math/tex&quot;&gt;p_i = P(X = x_i)&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now if we imagine that we place a mass of size &lt;script type=&quot;math/tex&quot;&gt;p_i&lt;/script&gt; along the curve &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; at each of
+the coordinates &lt;script type=&quot;math/tex&quot;&gt;(x_i, f(x_i))&lt;/script&gt; then &lt;script type=&quot;math/tex&quot;&gt;\sum f(x_i) p_i&lt;/script&gt; is simply the y-coordinate of the
+centre of mass (remember &lt;script type=&quot;math/tex&quot;&gt;\sum p_i = 1&lt;/script&gt;). The &lt;script type=&quot;math/tex&quot;&gt;\sum x_i p_i&lt;/script&gt; is the x-coordinate.&lt;/p&gt;
+
+&lt;p&gt;Viewed this way, all that Jensen’s inequality says is that for any convex curve, the centre of mass
+of masses placed on the curve, must lie above the curve. That seems intuitively obvious to me in a way that
+isn’t at first clear from staring at the inequality.&lt;/p&gt;
+
+&lt;p&gt;The picture below shows some masses placed on a convex curve along with their centre of mass in 2-d.
+It’s hopefully pretty obvious that the centre of mass of these masses has to lie above the curve (and its shown with a cross).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/jensenplot.jpg&quot; alt=&quot;my plot&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 20 Apr 2017 00:00:00 +0100</pubDate>
+      </item>
+    
+      <item>
+        <title>Hello world!</title>
+        <link>/hello-world</link>
+        <guid isPermaLink="true">/hello-world</guid>
+        <description>&lt;p&gt;Hello World!&lt;/p&gt;
+
+&lt;p&gt;This is my first blog post. My name is Raza Habib and I’m a PhD student at UCL
+studying Machine Learning under &lt;a href=&quot;http://web4.cs.ucl.ac.uk/staff/D.Barber/pmwiki/pmwiki.php&quot;&gt;David Barber&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I’m interested in Artificial (General) Intelligence, Machine Learning, Physics and the Philosophy of
+Science.&lt;/p&gt;
+
+&lt;p&gt;This blog will be a mixture of shorter technical posts explaining important ideas
+within machine learning interspersed with more speculative musings about the bigger picture
+questions that arise when studying computational intelligence.&lt;/p&gt;
+
+&lt;p&gt;The layout of this blog is heavily inspired by &lt;a href=&quot;http://dustintran.com/&quot;&gt;Dustin Tran’s&lt;/a&gt; blog.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 20 Apr 2017 00:00:00 +0100</pubDate>
+      </item>
+    
   </channel>
 </rss>
