@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/blog/_layouts/about.md/blog/</link>
     <description></description>
-    <pubDate>Thu, 11 Jan 2018 19:21:10 +0000</pubDate>
+    <pubDate>Thu, 11 Jan 2018 19:22:40 +0000</pubDate>
     
       <item>
         <title>Autodiff Can Do Your Inference For You</title>
