@@ -3,9 +3,9 @@
   <channel>
     <title></title>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <link>/blog/_layouts/about.md/blog/</link>
+    <link>/_layouts/about.md/</link>
     <description></description>
-    <pubDate>Fri, 12 Jan 2018 11:51:09 +0000</pubDate>
+    <pubDate>Fri, 12 Jan 2018 12:07:03 +0000</pubDate>
     
       <item>
         <title>Autodiff Can Do Your Inference For You</title>
