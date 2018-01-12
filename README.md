@@ -10,7 +10,8 @@ Times](http://www.nytimes.com/), and the
 cue from Paul Graham's [essays](http://paulgraham.com/articles.html)
 and Cosma Shalizi's [notebooks](http://bactra.org/notebooks/).
 
-I have more or less borrowed the theme wholesale from [Dustin Tran](https://dustintran.com)
+I have more or less borrowed the theme (with permission)
+wholesale from [Dustin Tran](https://dustintran.com)
 
 The following Jekyll plugins are used:
 
