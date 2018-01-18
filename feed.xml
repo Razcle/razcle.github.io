@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/_layouts/about.md/</link>
     <description></description>
-    <pubDate>Wed, 17 Jan 2018 15:27:45 +0000</pubDate>
+    <pubDate>Thu, 18 Jan 2018 09:47:07 +0000</pubDate>
     
       <item>
         <title>Learning to Sample - part 1</title>
@@ -64,7 +64,7 @@ function, maybe with some kind of regulariser:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathcal{L} = \sum_n \frac{1}{2} \left(y_n - f_W(x_n) \right)^T \left(y_n - f_W(x_n) \right) + \frac{1}{2} W^TW&lt;/script&gt;
 
-&lt;p&gt;Another equivalent view, is that this cost function corresponds MAP inference in the following
+&lt;p&gt;Another equivalent view, is that this cost function corresponds to MAP inference in the following
 probabilistic model. The liklihood is just a gaussian whoose mean is &lt;script type=&quot;math/tex&quot;&gt;f_W(x)&lt;/script&gt;:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(y|x, W) = |2\pi I|\ e^{- \frac{1}{2} \left(y - f_W(x) \right)^T \left(y - f_W(x) \right) }&lt;/script&gt;
@@ -368,7 +368,11 @@ variance to be useful. In those cases we can turn to the reparamaterisation tric
 on &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;. If we can do this, then we are back in the first situation we considered where the gradient operator can simply be brought into
 the expectation without any complexity. Put another way we want to find a differentiable function &lt;script type=&quot;math/tex&quot;&gt;\phi_\theta(z)&lt;/script&gt; such that:&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;p_\theta(x) = q(\phi_\theta(z))&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;x = \phi_\theta(z)&lt;/script&gt;
+
+&lt;p&gt;and&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;x \sim q(z)&lt;/script&gt;
 
 &lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;q&lt;/script&gt; is a distribution that has no &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; dependence. An example of such a function would
 be the following reparamaterisation of a normal distribution &lt;script type=&quot;math/tex&quot;&gt;P_\theta(x) = N_x(\mu, \Sigma)&lt;/script&gt;, where what we were calling &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; is
@@ -376,7 +380,7 @@ now &lt;script type=&quot;math/tex&quot;&gt;\mu&lt;/script&gt; and &lt;script ty
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\phi_\theta(z) = \mu + \Sigma^{\frac{1}{2}}z&lt;/script&gt;
 
-&lt;p&gt;and then sample &lt;script type=&quot;math/tex&quot;&gt;z \sim q(z)= N_z(0,I)&lt;/script&gt;, we then have that &lt;script type=&quot;math/tex&quot;&gt;p_\theta(x) = q(\phi_\theta(z))&lt;/script&gt;.&lt;/p&gt;
+&lt;p&gt;and then sample &lt;script type=&quot;math/tex&quot;&gt;z \sim q(z)= N_z(0,I)&lt;/script&gt;, we then have that &lt;script type=&quot;math/tex&quot;&gt;x = \phi_\theta(z)&lt;/script&gt;.&lt;/p&gt;
 
 &lt;p&gt;Once we’ve made this reparamaterisation we can return to our original problem and see that the issues have disappeared.&lt;/p&gt;
 

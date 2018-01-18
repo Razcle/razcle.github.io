@@ -248,7 +248,11 @@ variance to be useful. In those cases we can turn to the reparamaterisation tric
 on <script type="math/tex">\theta</script>. If we can do this, then we are back in the first situation we considered where the gradient operator can simply be brought into
 the expectation without any complexity. Put another way we want to find a differentiable function <script type="math/tex">\phi_\theta(z)</script> such that:</p>
 
-<script type="math/tex; mode=display">p_\theta(x) = q(\phi_\theta(z))</script>
+<script type="math/tex; mode=display">x = \phi_\theta(z)</script>
+
+<p>and</p>
+
+<script type="math/tex; mode=display">x \sim q(z)</script>
 
 <p>where <script type="math/tex">q</script> is a distribution that has no <script type="math/tex">\theta</script> dependence. An example of such a function would
 be the following reparamaterisation of a normal distribution <script type="math/tex">P_\theta(x) = N_x(\mu, \Sigma)</script>, where what we were calling <script type="math/tex">\theta</script> is
@@ -256,7 +260,7 @@ now <script type="math/tex">\mu</script> and <script type="math/tex">\Sigma</scr
 
 <script type="math/tex; mode=display">\phi_\theta(z) = \mu + \Sigma^{\frac{1}{2}}z</script>
 
-<p>and then sample <script type="math/tex">z \sim q(z)= N_z(0,I)</script>, we then have that <script type="math/tex">p_\theta(x) = q(\phi_\theta(z))</script>.</p>
+<p>and then sample <script type="math/tex">z \sim q(z)= N_z(0,I)</script>, we then have that <script type="math/tex">x = \phi_\theta(z)</script>.</p>
 
 <p>Once we’ve made this reparamaterisation we can return to our original problem and see that the issues have disappeared.</p>
 
