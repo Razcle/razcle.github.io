@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/_layouts/about.md/</link>
     <description></description>
-    <pubDate>Thu, 18 Jan 2018 09:47:07 +0000</pubDate>
+    <pubDate>Thu, 18 Jan 2018 09:49:06 +0000</pubDate>
     
       <item>
         <title>Learning to Sample - part 1</title>
@@ -372,7 +372,7 @@ the expectation without any complexity. Put another way we want to find a differ
 
 &lt;p&gt;and&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;x \sim q(z)&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;z \sim q(z)&lt;/script&gt;
 
 &lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;q&lt;/script&gt; is a distribution that has no &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; dependence. An example of such a function would
 be the following reparamaterisation of a normal distribution &lt;script type=&quot;math/tex&quot;&gt;P_\theta(x) = N_x(\mu, \Sigma)&lt;/script&gt;, where what we were calling &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; is
