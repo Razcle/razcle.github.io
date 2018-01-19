@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+	<meta charset="utf-8">
+	<title>Learning to Sample - part 1 | Raza Habib</title>
+	<meta name="description" content="I’ve become really interested in strategies for sampling from intractableprobability distributions, especially MCMC. Not only does sampling crop up all over ...">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-Frame-Options" content="sameorigin">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/main.css">
+
+	<!--Favicon-->
+	<link rel="shortcut icon" href="/logo.png" type="image/x-icon">
+
+	<!-- Canonical -->
+	<link rel="canonical" href="/SamplingInML">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/atom+xml" title="Raza Habib" href="/feed.xml" />
+
+	<!-- Font Awesome -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	
+	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+	
+
+	<!-- KaTeX -->
+	
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+	
+
+	<!-- Google Analytics -->
+	
+</head>
+
+  <body>
+    <header class="site-header">
+	<div class="branding">
+		
+		<a href="/">
+			<img class="avatar" src="/img/photo.jpg" alt=""/>
+		</a>
+		
+		<h1 class="site-title">
+			<a href="/">Raza Habib</a>
+		</h1>
+	</div>
+	<nav class="site-nav">
+		<ul>
+                        <!-- <li>
+				<a class="page-link" href="/_layouts/about.md">
+					about　
+				</a>
+			</li> -->
+			
+			
+			
+			
+			<li>
+				<a class="page-link" href="/about/">
+					About
+				</a>
+			</li>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<!-- Social icons from Font Awesome, if enabled -->
+			
+
+
+<li>
+	<a href="mailto:raza.habib@cs.ucl.ac.uk" title="Email">
+		<i class="fa fa-fw fa-envelope"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/razcle" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</ul>
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header style="background-image: url('/')">
+    <h1 class="title">Learning to Sample - part 1</h1>
+    <div style="padding-top:3%;"></div>
+    <div class="meta">
+      <span class="author">
+        By
+        
+          <a class="author-name" href="/_layouts/about.md">Raza Habib</a>
+        
+      </span>
+      <span class="date">Jan 12, 2018</span>
+      <ul>
+        
+
+
+<li>
+	<a href="mailto:raza.habib@cs.ucl.ac.uk" title="Email">
+		<i class="fa fa-fw fa-envelope"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/razcle" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </ul>
+    </div>
+  </header>
+  <section class="post-content"><p>I’ve become really interested in strategies for sampling from intractable
+probability distributions, especially MCMC. Not only does sampling crop up all over machine Learning
+but I also find the problem intrinsically intellectually
+appealing. Sampling is  <em>deceptively</em> difficult -
+a very easy problem to state but hugely complex to solve.</p>
+
+<p>Recently my attention has been caught by MCMC strategies that involve
+learning how to sample. There have been a couple of papers in this vein:
+<em>Generalising Hamiltonain Monte Carlo with Neural Nets</em> and <em>A-NICE-MC</em>
+are both excellent examples.</p>
+
+<p>In this  post I will:</p>
+
+<ul>
+  <li>Describe the problem MCMC is trying to solve.</li>
+  <li>Recap the basics of Metropolis Hastings.</li>
+</ul>
+
+<p>Next post:</p>
+<ul>
+  <li>Delve into some of the cutting edge strategies for learning samplers.</li>
+</ul>
+
+<h2 id="the-problem">The Problem</h2>
+
+<p>Concretely the problem that frequently crops up in ML is either:</p>
+
+<ul>
+  <li>Draw samples <script type="math/tex">{x}</script> from a probability distribution <script type="math/tex">P(x)</script> or</li>
+  <li>Compute the expectation <script type="math/tex">E_{p(x)}[f(x)]</script></li>
+</ul>
+
+<p>where the distribution <script type="math/tex">p(x)</script> is very complicated. Often we only know <script type="math/tex">p(x)</script>
+up to some normalisation constant <script type="math/tex">p(x)=p^*(x)/Z</script> and we can only evaluate <script type="math/tex">p^*(x)</script>
+at a point.</p>
+
+<p>This problem comes up in inference when marginalising over variables, learning with intractable normalisers
+and in model comparison when computing the model evidence.</p>
+
+<h3 id="one-concrete-example---bayesian-deep-learning">One Concrete Example - Bayesian Deep learning</h3>
+
+<p>I find it helps to have a motivating example in mind. One cool example of MCMC
+that bridges the worlds of traditional probabilistic
+learning and Deep Learning is sampling the posterior over the weights of a neural network.
+I think Radford Neal was one of the first to notice the opportunity here and applied an
+MCMC algorithm called Hamiltonian Montecarlo to the problem and got excellent results.</p>
+
+<p>Imagine your using a neural net for a regression task. Given an input <script type="math/tex">x</script> your neural
+net outputs a prediction <script type="math/tex">f_W(x)</script>. Typically neural nets are trained by optimising a cost
+function, maybe with some kind of regulariser:</p>
+
+<script type="math/tex; mode=display">\mathcal{L} = \sum_n \frac{1}{2} \left(y_n - f_W(x_n) \right)^T \left(y_n - f_W(x_n) \right) + \frac{1}{2} W^TW</script>
+
+<p>Another equivalent view, is that this cost function corresponds to MAP inference in the following
+probabilistic model. The liklihood is just a gaussian whoose mean is <script type="math/tex">f_W(x)</script>:</p>
+
+<script type="math/tex; mode=display">P(y|x, W) = |2\pi I|\ e^{- \frac{1}{2} \left(y - f_W(x) \right)^T \left(y - f_W(x) \right) }</script>
+
+<p>and the prior is:</p>
+
+<script type="math/tex; mode=display">P(W) = (2 \pi)^{- \frac{D}{2}} e^{- \frac{1}{2} W^TW}</script>
+
+<p>and the data are assumed to be drawn i.i.d. In this case our cost function <script type="math/tex">\mathcal{L}</script>
+is equivalent to:</p>
+
+<script type="math/tex; mode=display">\mathcal{L} = - \sum_n \log P(y_n|x_n, W) - \log P(W)</script>
+
+<p>Rather than doing MAP inference in this model we could actually draw samples from
+the posterior over model parameters, <script type="math/tex">P(W| \{x_1, ..., x_N\}, \{y_1, ..., y_n\})</script>.
+If we do this, not only will our model predictions likely be more accurate than just taking
+the MAP but we can also calculate uncertainty estimates for all of our predictions.
+Our predictions now become:</p>
+
+<script type="math/tex; mode=display">y^* | x^* = E_{P(y|x^*, W)}[y] \approx \sum_m^M \frac{1}{M} f_{W_m}(x)</script>
+
+<p>where:</p>
+
+<script type="math/tex; mode=display">W_m \sim P(W| \{x_1, ..., x_N\}, \{y_1, ..., y_n\})</script>
+
+<p>and our uncertainty becomes:</p>
+
+<script type="math/tex; mode=display">\sigma_y = Var(y|x) \approx \sum_m \frac{1}{M} f_{W_m}(x)f_{W_m}(x)^T - y^*y^{*T}</script>
+
+<p>Being able to estimate uncertainty is incredibly important when deploying deep learning
+in the real world. For example when used in medical diagnosis, we may not want to trust
+our deep learning model when the uncertainty is high.</p>
+
+<p>In order to get these uncertainty estimates we need to able to sample from <script type="math/tex">P(W| \{x_1, ..., x_N\}, \{y_1, ..., y_n\})</script>.
+This is far from trivial.</p>
+
+<h3 id="what-makes-this-so-hard">What makes this so hard?</h3>
+<p>Sampling requires global information but if we can only evaluate the density point-wise, our information
+is inherently local.
+By definition, to be able to draw samples from a distribution we need samples on
+average to come from places that contain a large fraction of the total
+probability mass. However, knowing the fraction of probability mass in a given region
+is an inherently global property. We need to know not just how big the
+unnormalised density is around a point of interest but how this compares
+to other parts of this space. Since we can only evaluate the density locally,
+we have to somehow combine sparse local information to get a picture of the whole.
+This becomes increasingly hard as the dimensionality of the problem grows.</p>
+
+<h2 id="markov-chain-monte-carlo-mcmc-and-metropolis-hastings">Markov Chain Monte Carlo (MCMC) and Metropolis-Hastings</h2>
+<p>Markov Chain Monte Carlo is a strategy for approximately solving the sampling problem.
+MCMC works by simulating a particle roaming around the sampling space in such a way that,
+in the limit of infinite exploration, the amount of time it spends in each part of the space
+is proportional to the probability of that part of the space. In practice a good approximation
+can be achieved after a finite amount of exploration.</p>
+
+<h3 id="how-do-we-run-the-simulation">How do we run the simulation?</h3>
+<p>We initialise our particle at some random point <script type="math/tex">X_0</script> and then sample <script type="math/tex">X_t</script> from
+a carefully chosen proposal distribution <script type="math/tex">T(X_{t}|X_{t-1})</script>. As long as we are
+judicious in our choice of proposal we can prove that the particle will eventually
+be a collection of samples from the target distribution <script type="math/tex">P_{target}(x)</script>.</p>
+
+<script type="math/tex; mode=display">X_0 \rightarrow X_1 \rightarrow X_2 \rightarrow ... \rightarrow X_t</script>
+
+<script type="math/tex; mode=display">P(X_t) \rightarrow P_{target}</script>
+
+<p>In order for this to work we need our Markov transition distribution to have two
+very important properties. First we need to know that our target distribution is a
+fixed point of this transition operator. i.e. We need to know that if we sample a point
+from <script type="math/tex">P(x)</script> and then repeatedly sample from <script type="math/tex">T(X_{t}|X_{t-1})</script> that the distribution
+over our samples will marginally still be <script type="math/tex">P(x)</script>. Formally we require:</p>
+
+<script type="math/tex; mode=display">\int T(x'|x)P_{target}(x) dx = P_{target}(x')</script>
+
+<p>One sufficient (but not necessary) condition for this to be true is that <script type="math/tex">T(x'|x)</script> satisfies
+detailed balance:</p>
+
+<script type="math/tex; mode=display">P_{target}(x)T(x'|x) = P_{target}(x')T(x|x')</script>
+
+<p>If detailed balance holds than we are guaranteed that the target distribution is a fixed
+point. You can see this by substituting the condition into the stationarity equation.
+(The downside of detailed balance is that we’re always as likely to go forward in our simulation
+as we are to go backwards and this slows us down)</p>
+
+<p>Once we’ve established that <script type="math/tex">P_{target}</script> is a fixed point of our operator, we need to
+know that no matter where we start we will end up at this fixed point. That is, we
+need our chain of samples to be “ergodic”. We can guarantee ergodicity by making sure that
+no point in the sample space is visited with a fixed period and no
+parts of the sample space are inaccessible from each other.</p>
+
+<h2 id="metropolis-hastings">Metropolis-Hastings</h2>
+<p>The Metropolis-Hastings algorithm is a strategy for shoe-horning any Markov proposal
+distribution into one that has the above desired properties. The way that this is
+done is to introduce an accept-reject step at each stage of the simulation. Roughly
+we sample from any Markovian transition operator <script type="math/tex">Q(x'|x)</script> and then either accept
+that point as our next sample or reject it, depending on how likely the proposed
+point is under our target distribution. Concretely we sample <script type="math/tex">x' \sim Q(x'|x)</script> and
+then accept or reject with probability:</p>
+
+<script type="math/tex; mode=display">a = min \{ \frac{P_{target}(x)}{P_{target}(x')} \frac{Q(x|x')}{Q(x'|x)}, 1 \}</script>
+
+<p>The transition from this combined process of sampling and rejecting is then:</p>
+
+<script type="math/tex; mode=display">T(x'|x) = Q(x'|x)\ min \{ \frac{P_{target}(x)}{P_{target}(x')} \frac{Q(x|x')}{Q(x'|x)}, 1 \}</script>
+
+<p>and this transition has the property, that NO MATTER what <script type="math/tex">Q</script> is we have satisfied detailed balance!
+This is because (assuming w.l.o.g the acceptance fraction is less than 1):</p>
+
+<script type="math/tex; mode=display">P_{target}(x)T(x'|x) = P_{target}(x) Q(x'|x) \frac{P_{target}(x')}{P_{target}(x)} \frac{Q(x|x')}{Q(x'|x)}
+                        = Q(x|x')P_{target}(x')</script>
+
+<p>and</p>
+
+<script type="math/tex; mode=display">P_{target}(x')T(x|x') = P_{target}(x') Q(x|x') * 1</script>
+
+<p>so detailed balance holds.</p>
+
+<p>The power of Metropolis-Hastings is that it gives us enormous flexibility over our choice
+of proposal distribution whilst still guaranteeing that we’ll eventually get accurate samples. This is
+why it forms the back-bone of many popular sampling algorithms including the learning to sample methods
+that I will talk about in my next post but also Gibbs sampling, Hamiltonain Monte-Carlo, NUTS and Slice
+sampling.</p>
+
+<p>However, if we make a poor choice of <script type="math/tex">Q</script> we will find that the probability of accepting a new point
+is very low and it’ll take a very long time for our simulation to converge to the distribution of interest. Also,
+we shoe-horn <script type="math/tex">Q</script> into a valid transition operator by enforcing detailed balance and as was mentioned before,
+detailed balance can seriously slow down the generation of samples.</p>
+
+<h2 id="summary">Summary</h2>
+<p>MCMC is one very powerful technique to solving the sampling problem. I personally find it pretty
+amazing that a single point particle wandering around a high-dimensional sampling space can
+gather enough information to give us a representative summary of the overall distribution.</p>
+
+<p>Whilst Metropolis-Hastings represents a good starting place for building sampling algorithms its performance
+depends heavily on the choice of proposal distribution. MCMC only gives us exact samples in the limit of infinite
+time, how good an approximation we get in finite time is very variable and actually quite hard to even assess.</p>
+
+<p>There are many variants of MCMC algorithms but a lot of them can be viewed as Metropolis-Hastings
+with different carefully crafted choices for the proposal distribution <script type="math/tex">Q</script>. One strategy that’s
+recently been proposed has been to parameterise <script type="math/tex">Q</script> and somehow learn the parameters of <script type="math/tex">Q</script> to
+provide efficient sampling for a given distribution.</p>
+</section>
+</article>
+
+<!-- Post navigation -->
+
+
+<!-- Disqus -->
+
+
+    </div>
+    
+<script src="/js/katex_init.js"></script>
+
+
+
+<footer class="site-footer">
+	<p class="text">© 2016 ・ <a class="plain" href="https://github.com/Razcle">Raza</a>
+</p>
+</footer>
+
+
+  </body>
+</html>
