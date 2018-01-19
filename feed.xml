@@ -3,9 +3,9 @@
   <channel>
     <title></title>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <link>http://localhost:4000/</link>
+    <link>/_layouts/about.md/</link>
     <description></description>
-    <pubDate>Fri, 19 Jan 2018 16:31:51 +0000</pubDate>
+    <pubDate>Fri, 19 Jan 2018 16:40:59 +0000</pubDate>
     
       <item>
         <title>Scaling Ambition - 10 bits of advice from Reid Hoffman</title>
@@ -106,7 +106,7 @@ can get and therefore allow you to take more risk.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/OODA_loop&quot;&gt;OODA loop&lt;/a&gt; is a term from the United
 States Airforce that stands for Observe, Orient, Decide, Act. When asked for
 unifying traits of the most successful teams, fast OODA loop was amongst the
-first thing that Reid mentioned.&lt;/p&gt;
+first things that Reid mentioned.&lt;/p&gt;
 
 &lt;p&gt;As far as I can tell OODA loop is akin to the “scientific method”*  but with an
 extra O for orientation. Orientation is the process by which we filter our observations
@@ -116,7 +116,7 @@ through the various lenses of our past experience, knowledge and culture.&lt;/p&
 the main point that Reid was making, was that the best teams are decisive
 but also data-driven.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/ooda.png&quot; alt=&quot;ooda&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/OODA.png&quot; alt=&quot;ooda&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;7-be-very-intentional-about-culture&quot;&gt;7) Be very intentional about culture&lt;/h3&gt;
 &lt;p&gt;When reflecting on his own experience as an entrepreneur and of LinkedIn, one of
