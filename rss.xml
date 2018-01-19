@@ -5,7 +5,199 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/</link>
     <description></description>
-    <pubDate>Thu, 18 Jan 2018 09:49:06 +0000</pubDate>
+    <pubDate>Fri, 19 Jan 2018 15:17:47 +0000</pubDate>
+    
+      <item>
+        <title>Scaling Ambition - 10 bits of advice from Reid Hoffman</title>
+        <link>/scalingambition</link>
+        <guid isPermaLink="true">/scalingambition</guid>
+        <description>&lt;h3 id=&quot;starting-a-company-is-like-jumping-off-a-cliff-and-assembling-a-plane-on-the-way-down--reid-hoffman-2018&quot;&gt;“&lt;em&gt;Starting a company is like jumping off a cliff and assembling a plane on the way down&lt;/em&gt;” – Reid Hoffman, 2018&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/hoffman.jpg&quot; alt=&quot;hoffman&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Yesterday evening I had the pleasure of seeing Reid Hoffman discuss
+entrepreneurship in a talk organised by &lt;a href=&quot;https://joinef.com&quot;&gt;Entrepreneur First&lt;/a&gt;.
+I’ve been lucky enough to visit a few of these events and I thought this one
+was exceptionally good. The videos have been made available on line &lt;a href=&quot;link to video&quot;&gt;here&lt;/a&gt;.
+If you don’t have time to see the whole talk, below is a summary of some of my favourite
+bits of advice given. Most of the advice is aimed at entrepreneurs but much of it should
+transfer over to anyone ambitious, trying to maximise their impact.&lt;/p&gt;
+
+&lt;h3 id=&quot;1-be-sure-youre-learning&quot;&gt;1) Be sure you’re learning&lt;/h3&gt;
+&lt;p&gt;This piece of advice came up in a few different places throughout the talk. People
+often discuss the value of failure because of its potential for learning but
+how can you be sure you’re actually learning from your experiences? The suggested
+tip here is to imagine a relatively recent slice of time - a few weeks or months -
+and ask yourself what advice you would give your younger self. If you cant think
+of any advice or what you would do differently, then
+you’re probably not learning.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-its-hard-to-overstate-the-importance-of-grit&quot;&gt;2) It’s hard to overstate the importance of grit&lt;/h3&gt;
+&lt;p&gt;When asked about some of the reasons for Silicon Valley’s success, Reid suggested
+that a big component was attitudes to failure. By not demonising failure and allowing
+people multiple chances, Silicon Valley de-risks starting a business
+and allows the most gritty individuals to shine.&lt;/p&gt;
+
+&lt;p&gt;Roughly speaking, grit is a measure of an individual’s ability to stay focused on
+a given project, persevere through difficulties and maintain enthusiasm for their
+goal. Gritty individuals tend to connect their purpose to other people, put in
+hours of deliberate practice and view failure as an opportunity for learning. You
+can self assess your own grit by calculating your grit score &lt;a href=&quot;https://angeladuckworth.com/grit-scale/&quot;&gt;here&lt;/a&gt;.
+Many believe that grit itself can be developed and improved.&lt;/p&gt;
+
+&lt;p&gt;Another interesting data point that came up with regards to grit is that amongst the
+Entrepreneur First cohorts, some of the most successful companies were started by
+people who went through the program, failed and then started again. One possible
+reason for the greater success amongst the subset of failure is a demonstration
+of exceptional grit.&lt;/p&gt;
+
+&lt;h3 id=&quot;3-the-best-technical-founders-are-also-business-model-geeks&quot;&gt;3) The best technical founders are also business model geeks&lt;/h3&gt;
+&lt;p&gt;When considering some of the tech behemoths like Google, Facebook or Microsoft;
+it’s easy for engineering-types to over emphasise the technical skills of the founders.
+Sergei, Larry, Gates and Zuckerberg all have serious technical credentials but one thing
+that remains super important is that they were also business model geeks.&lt;/p&gt;
+
+&lt;p&gt;That doesn’t mean they’d absorbed the business school knowledge of an MBA but
+rather that they were willing to think creatively about how to monetise their
+products.&lt;/p&gt;
+
+&lt;p&gt;Some example strategies that Reid implicitly mentioned:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Freemium models - providing a core product for free and charging for extra services. Examples here
+might be LinkedIn or Spotify.&lt;/li&gt;
+  &lt;li&gt;Trojan horse - provide a lower quality and cheaper version of a product than competitors
+to gain access to some other valuable commodity like a user base, data or network. Examples
+here might be Facebook or Onfido.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Leading directly from this point is the idea that you shouldn’t be too restricted
+by conventional norms or rules:&lt;/p&gt;
+
+&lt;h3 id=&quot;4-find-where-you-can-break-traditional-rules&quot;&gt;4) Find where you can break traditional rules&lt;/h3&gt;
+&lt;p&gt;One of things that the most successful founders do, is to think carefully about
+where they may be able to ignore conventional wisdom and give themselves greater
+bandwidth for their most important problems. Most of us, but entrepreneurs to a greater
+degree, are usually fighting battles on numerous fronts and need to ruthlessly
+prioritise. Sometimes its easy to feel like you have to do something because
+“thats the way that its done”, so its important to
+question that feeling.&lt;/p&gt;
+
+&lt;p&gt;A concrete example Reid gave was the role of unit economics in start-ups. Traditional
+business wisdom would say that you should start calculating unit economics very early,
+you should know the life-time-value of your customers etc. However for software businesses
+in Silicon Valley it’s fairly common to see series-A or even series-B start-ups that still
+haven’t answered this question because it’s not yet a priority. Their founders have realised
+their efforts are better spent else where. That isn’t to say that knowing your unit economics
+isn’t important, a hardware business would die if they didn’t know this, but you shouldn’t
+be bound into this rule just because its conventional.&lt;/p&gt;
+
+&lt;h3 id=&quot;5-engage-in-abz-planning&quot;&gt;5) Engage in ABZ planning&lt;/h3&gt;
+&lt;p&gt;It’s pretty typical for people to have a Plan A, and a Plan B, and maybe a Plan C.
+Reid Hoffman suggested this was the wrong way to go about this. Rather you should
+have a plan A, many Plan&lt;em&gt;s&lt;/em&gt; B and then if all else fails a plan Z. The key idea
+here is that if plan A doesn’t work, it might not work in lots of different ways
+and you should have multiple strategies for still achieving your goal depending
+on the outcome of plan A. Then if all of these fail, you should have a backup:
+your plan Z. Plan Z is your parachute, it should give you a floor to how bad things
+can get and therefore allow you to take more risk.&lt;/p&gt;
+
+&lt;h3 id=&quot;6-the-best-businesses-and-teams-have-short-ooda-loops&quot;&gt;6) The best businesses and teams have short OODA loops&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/OODA_loop&quot;&gt;OODA loop&lt;/a&gt; is a term from the United
+States Airforce that stands for Observe, Orient, Decide, Act. When asked for
+unifying traits of the most successful teams, fast OODA loop was amongst the
+first thing that Reid mentioned.&lt;/p&gt;
+
+&lt;p&gt;As far as I can tell OODA loop is akin to the “scientific method”*  but with an
+extra O for orientation. Orientation is the process by which we filter our observations
+through the various lenses of our past experience, knowledge and culture.&lt;/p&gt;
+
+&lt;p&gt;I can’t claim a deep understanding of the concepts behind OODA-loop but I think
+the main point that Reid was making, was that the best teams are decisive
+but also data-driven.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/ooda.png&quot; alt=&quot;ooda&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;7-be-very-intentional-about-culture&quot;&gt;7) Be very intentional about culture&lt;/h3&gt;
+&lt;p&gt;When reflecting on his own experience as an entrepreneur and of LinkedIn, one of
+the things Reid said he would have done differently is culture. He suggested
+that trying to be explicit about culture from very early on and taking an active
+hand in shaping it were super important.&lt;/p&gt;
+
+&lt;p&gt;He gave two concrete examples:&lt;/p&gt;
+
+&lt;p&gt;1) &lt;a href=&quot;https://www.slideshare.net/reed2001/culture-1798664/37-Why_are_we_so_insistent&quot;&gt;The Netflix culture document&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;2) The founder of Workday, Aneel Bhusri, interviewed the first 500 employees
+and on every rejection advised senior management on why he had rejected that
+candidate. In this way he both demonstrated the importance of culture and was explicitly
+able to communicate what we wanted to other senior management.&lt;/p&gt;
+
+&lt;h3 id=&quot;8-references-are-more-important-than-interviews&quot;&gt;8) References are more important than interviews&lt;/h3&gt;
+&lt;p&gt;When it comes to choosing who to hire, you can only learn so much through interviews
+and ultimately the interview can be gamed.&lt;/p&gt;
+
+&lt;p&gt;Reid suggested going through the following loop when hiring for key roles:&lt;/p&gt;
+
+&lt;p&gt;1) First reach out to your network and ask people who is the best person they know
+at a given job, not the best person available but the best person full stop.&lt;/p&gt;
+
+&lt;p&gt;2) Approach this person and try to learn as much about the job from them as is possible.
+Then ask them to recommend somebody.&lt;/p&gt;
+
+&lt;p&gt;3) Once you have a candidate in mind, get 5-7 different people to provide references.
+People tend not to want to say negative things in references so ask for ratings on a
+scale of 1-10. Mostly 7’s is a rejection but mostly 8-9’s is very interesting.&lt;/p&gt;
+
+&lt;h3 id=&quot;9-correct-your-mistakes-early---if-there-is-a-question-there-is-no-question&quot;&gt;9) Correct your mistakes early - “if there is a question, there is no question”&lt;/h3&gt;
+
+&lt;p&gt;This was brought up specifically in the context of hiring but is probably applicable to
+any decision with large long term consequences. Its very important to correct mistakes early
+and if you have significant doubts about a hire, than you should probably fire them. As the
+title says, “if there is a question, there is no question”.&lt;/p&gt;
+
+&lt;h3 id=&quot;10-rely-very-strongly-on-your-network&quot;&gt;10) Rely very strongly on your network&lt;/h3&gt;
+
+&lt;p&gt;The concept of having a good network of friends and contacts that can help you
+came up numerous times across the evening and in lots of different contexts:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;How to validate an early business model?:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;“take your hypothesis to the smartest people you know and seek critical feedback”&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;How can a large company stay innovative?:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;“maintain a connection to the start-up community”&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;How to find good employees?:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;“Ask your network to recommend the best person they can?”&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;How to overcome market scepticism?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;“Leverage outside brand, such as a strong VC”&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;p&gt;Ultimately, if you want to get the full value of the evening, you’ll have to watch
+the original video as there were lots of little nuggets distributed throughout the talk.
+I’ve inevitably filtered the advice through my own lens but hopefully the above
+list gives you a taste of what was said and will prove helpful.&lt;/p&gt;
+
+&lt;h4 id=&quot;footnotes&quot;&gt;Footnotes&lt;/h4&gt;
+
+&lt;p&gt;*I’m not sure I subscribe to the convential view of the scientific method but that
+will have to wait for a later post.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 18 Jan 2018 00:00:00 +0000</pubDate>
+      </item>
     
       <item>
         <title>Learning to Sample - part 1</title>
