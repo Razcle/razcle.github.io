@@ -5,7 +5,104 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/</link>
     <description></description>
-    <pubDate>Fri, 19 Jan 2018 16:40:59 +0000</pubDate>
+    <pubDate>Mon, 29 Jan 2018 22:49:03 +0000</pubDate>
+    
+      <item>
+        <title>DeepMind at UCL - Academia meets Industry</title>
+        <link>/DeepMindAtUCL</link>
+        <guid isPermaLink="true">/DeepMindAtUCL</guid>
+        <description>&lt;p&gt;This term I’m the teaching assistant (TA) on the deep-mind lead course,
+“Advanced Deep Learning and Reinforcement Learning” at UCL, and this has prompted
+me to think a little about DeepMind’s approach to AI and the impact of industry/academia
+partnerships, so I decided to jot down a few of my thoughts.
+I should caveat that I’m not employed by DeepMind (I’m employed by UCL) and everything I say is simply
+my interpretation of publicly available information.&lt;/p&gt;
+
+&lt;p&gt;The first thing that I wanted to discuss was how DeepMind describe their approach
+to solving AGI. The first lecture in the course was focussed primarily on this question
+both from a theoretical perspective, how do we define what it means to “solve intelligence”, and
+a practical perspective, how do you organise a large number of academics to work in teams on the
+same problem. I find both of these questions fascinating, especially the question of how to manage
+scientific progress, something that I think is typically overlooked in Academia.&lt;/p&gt;
+
+&lt;p&gt;In this post I’m going to focus on the question on what DeepMind mean by “solving intelligence”, mainly because
+they’re more public on their thinking in this area. If I have time, I’ll try to share my thoughts on what I’ve learned
+about managing large scale science.&lt;/p&gt;
+
+&lt;h2 id=&quot;deepminds-stated-approach-to-solving-intelligence&quot;&gt;DeepMind’s Stated Approach to “Solving Intelligence”&lt;/h2&gt;
+
+&lt;p&gt;DeepMind’s mission statement is as audacious as it is succinct - “solve intelligence, use it to make the world a better place”. It’s the kind of statement that sometimes frustrates serious academics for being overly vague and possibly exaggerating the state of modern AI. However, I quite like the statement.
+I find it inspiring that they’re willing to set ambitious goals even if they’re a long way off and DeepMind seems to have well thought out answers
+to what it means to solve intelligence.&lt;/p&gt;
+
+&lt;h3 id=&quot;what-is-intelligence&quot;&gt;What is Intelligence?&lt;/h3&gt;
+
+&lt;p&gt;DeepMind’s answers to both the questions of what intelligence is and how to solve it, have their roots in the PhD work of their co-founder and chief scientist Shane Legg.
+Legg did his PhD, titled &lt;a href=&quot;http://www.vetta.org/documents/Machine_Super_Intelligence.pdf&quot;&gt;“Machine Superintelligence”&lt;/a&gt;, with Marcus Hutter who is famously theoretical and intellectually ambitious.
+Hutter is mostly famous for working on “Universal AI”, and anyone who’s ever been to a talk by Juergen Schmidhuber will have heard about
+Hutter’s asymptotically optimal algorithm for searching the space of all computable programs. (Sadly not computable in practice)&lt;/p&gt;
+
+&lt;p&gt;During his PhD, Legg grew frustrated by the lack of a clearly defined goal for AGI research. Lots of people
+say they are working in AI (or other people say it for them) but they have very different goals. Without a clearly
+defined target its difficult to measure progress and the goal posts keep moving. Hutter and Legg studied various definitions
+of intelligence from a range of different disciplines and presented both a mathematical formalisation and a colloquial definition
+of what intelligence is.&lt;/p&gt;
+
+&lt;p&gt;Colloquially, Legg says “Intelligence measures an agent’s ability to achieve goals in a wide range of
+environments.”&lt;/p&gt;
+
+&lt;p&gt;This definition is remarkably simple and hides a huge amount of thought behind its definition. Hutter and Legg
+collected dozens of alternative definitions of intelligence from experts in various fields and this definition somehow manages
+to capture almost all of them. Importantly this definition doesn’t distinguish whether the agent is biological, a human, an animal
+or a silicon based machine. All agents, biological and artificial can be judged under this criterion and measured.&lt;/p&gt;
+
+&lt;p&gt;Formally they define an agent’s “intelligence” to be:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\Upsilon(\pi) = \sum_{\mu \in E} 2^{-K(\mu)} V^\pi_\mu&lt;/script&gt;
+
+&lt;p&gt;Where &lt;script type=&quot;math/tex&quot;&gt;\pi&lt;/script&gt; is an agent or policy, &lt;script type=&quot;math/tex&quot;&gt;E&lt;/script&gt; is the space of all “computable reward summable environment measures”,  &lt;script type=&quot;math/tex&quot;&gt;K&lt;/script&gt; is the
+Kolmogorov complexity of the given environment and &lt;script type=&quot;math/tex&quot;&gt;V^\pi_\mu&lt;/script&gt; is the value achieved by that agent in that environment. This definition captures
+the colloquial one given above. Interestingly more complex environments are actually penalised relative to simple ones, this means that advanced but
+highly specialised agents (like a chess computer) would still score poorly on this unvirsal intelligence measure.&lt;/p&gt;
+
+&lt;p&gt;In practice the Kolmogorov complexity cant be calculated so this definition is more of a mathematical curiosity then a practical definition.
+None the less, this formal work guides the strategy at DeepMind. They build a wide range of environments of increasing complexity and can measure
+progress by how much reward a single agent can achieve across many environments.&lt;/p&gt;
+
+&lt;p&gt;To date the results are mixed but having a concrete and well defined goal make DeepMind particular and quite unusual amongst research labs.&lt;/p&gt;
+
+&lt;h3 id=&quot;grounded-cognition-and-rl-or-how-do-you-solve-it&quot;&gt;Grounded Cognition and RL or How do you solve it?&lt;/h3&gt;
+
+&lt;p&gt;Having answered the question of what they mean by solving intelligence DeepMind then go further
+and present a strategy or plan of attack. One of the key ideas behind DeepMind’s approach is that of
+&lt;em&gt;grounded cognition&lt;/em&gt;. AI agents, they say, have to be immersed in a rich sensorimotor experience and derive their
+behaviour directly from that experience. The reason for grounded cognition being so
+important is that it helps avoid some of the short comings of more traditional non-learning based AI
+algorithms. Simplifying enormously, a more traditional symbolic AI system requires a human to find the correspondence/isomorphism
+between symbols in the system and objects in the world. This means that setting up these systems requires a lot of
+domain expertise. If on the other hand, an agent can extract information directly from sensory input then
+it can operate in “the wild” more easily and can adapt naturally to different environments.&lt;/p&gt;
+
+&lt;p&gt;The need for grounded cognition is part of the reason why deep learning is such a focus for DeepMind.
+The main strength of deep learning in this regard is that it can directly extract useful features from
+data. It could be argued that non-parametric methods like Support Vector Machines
+or Gaussian Processes can also perform feature extraction/selection and this is true but its much harder
+to reuse the learned features and some of these methods don’t scale well to large data sets. There are groups
+pursuing this approach though, eg &lt;a href=&quot;https://www.prowler.io/&quot;&gt;prowler&lt;/a&gt; and they have produced amazing work as well.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;They’re are mixed feelings within academia about industrial research labs and
+DeepMind in particular. Many argue that they over do their PR and receive disproportionate attention
+for ideas that are maybe less novel then they suggest. There are also concerns of a brain drain from
+academia and an inability of academics to compete with the vast data and compute resources of Google.
+Personally, I think that the benefits far outweigh the cons. DeepMind have more clearly defined what it
+means to solve AI then any other group, and by articulating a well defined vision they’ve inspired
+many more people to take an interest in these problems. Academia will continue to be an important source
+of major contributions but I personally welcome the competition form industry and the heavy computational
+lifting that they can do on the community’s behalf.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 29 Jan 2018 00:00:00 +0000</pubDate>
+      </item>
     
       <item>
         <title>Scaling Ambition - 10 bits of advice from Reid Hoffman</title>
@@ -204,7 +301,7 @@ will have to wait for a later post.&lt;/p&gt;
         <link>/SamplingInML</link>
         <guid isPermaLink="true">/SamplingInML</guid>
         <description>&lt;p&gt;I’ve become really interested in strategies for sampling from intractable
-probability distributions, especially MCMC. Not only does sampling crop up all over machine Learning
+probability distributions, especially MCMC. Not only does sampling crop up all over machine learning
 but I also find the problem intrinsically intellectually
 appealing. Sampling is  &lt;em&gt;deceptively&lt;/em&gt; difficult -
 a very easy problem to state but hugely complex to solve.&lt;/p&gt;
@@ -257,7 +354,7 @@ function, maybe with some kind of regulariser:&lt;/p&gt;
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathcal{L} = \sum_n \frac{1}{2} \left(y_n - f_W(x_n) \right)^T \left(y_n - f_W(x_n) \right) + \frac{1}{2} W^TW&lt;/script&gt;
 
 &lt;p&gt;Another equivalent view, is that this cost function corresponds to MAP inference in the following
-probabilistic model. The liklihood is just a gaussian whoose mean is &lt;script type=&quot;math/tex&quot;&gt;f_W(x)&lt;/script&gt;:&lt;/p&gt;
+probabilistic model. The likelihood is just a gaussian whose mean is &lt;script type=&quot;math/tex&quot;&gt;f_W(x)&lt;/script&gt;:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(y|x, W) = |2\pi I|\ e^{- \frac{1}{2} \left(y - f_W(x) \right)^T \left(y - f_W(x) \right) }&lt;/script&gt;
 
