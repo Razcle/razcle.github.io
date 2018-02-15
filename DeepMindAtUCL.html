@@ -52,7 +52,7 @@
 	<nav class="site-nav">
 		<ul>
                         <!-- <li>
-				<a class="page-link" href="/_layouts/about.md">
+				<a class="page-link" href="http://localhost:4000">
 					about　
 				</a>
 			</li> -->
@@ -141,7 +141,7 @@
       <span class="author">
         By
         
-          <a class="author-name" href="/_layouts/about.md">Raza Habib</a>
+          <a class="author-name" href="http://localhost:4000">Raza Habib</a>
         
       </span>
       <span class="date">Jan 29, 2018</span>
@@ -241,7 +241,7 @@ of what intelligence is.</p>
 <p>Colloquially, Legg says “Intelligence measures an agent’s ability to achieve goals in a wide range of
 environments.”</p>
 
-<p>This definition is remarkably simple and hides a huge amount of thought behind its definition. Hutter and Legg
+<p>This definition is remarkably simple and hides a huge amount of thought behind it. Hutter and Legg
 collected dozens of alternative definitions of intelligence from experts in various fields and this definition somehow manages
 to capture almost all of them. Importantly this definition doesn’t distinguish whether the agent is biological, a human, an animal
 or a silicon based machine. All agents, biological and artificial can be judged under this criterion and measured.</p>
@@ -253,7 +253,7 @@ or a silicon based machine. All agents, biological and artificial can be judged 
 <p>Where <script type="math/tex">\pi</script> is an agent or policy, <script type="math/tex">E</script> is the space of all “computable reward summable environment measures”,  <script type="math/tex">K</script> is the
 Kolmogorov complexity of the given environment and <script type="math/tex">V^\pi_\mu</script> is the value achieved by that agent in that environment. This definition captures
 the colloquial one given above. Interestingly more complex environments are actually penalised relative to simple ones, this means that advanced but
-highly specialised agents (like a chess computer) would still score poorly on this unvirsal intelligence measure.</p>
+highly specialised agents (like a chess computer) would still score poorly on this universal intelligence measure.</p>
 
 <p>In practice the Kolmogorov complexity cant be calculated so this definition is more of a mathematical curiosity then a practical definition.
 None the less, this formal work guides the strategy at DeepMind. They build a wide range of environments of increasing complexity and can measure
@@ -276,9 +276,8 @@ it can operate in “the wild” more easily and can adapt naturally to differen
 <p>The need for grounded cognition is part of the reason why deep learning is such a focus for DeepMind.
 The main strength of deep learning in this regard is that it can directly extract useful features from
 data. It could be argued that non-parametric methods like Support Vector Machines
-or Gaussian Processes can also perform feature extraction/selection and this is true but its much harder
-to reuse the learned features and some of these methods don’t scale well to large data sets. There are groups
-pursuing this approach though, eg <a href="https://www.prowler.io/">prowler</a> and they have produced amazing work as well.</p>
+or Gaussian Processes can also perform feature extraction/selection and this is true but it’s much harder
+to reuse the (infinite dimensional) learned features and some of these methods don’t scale well to large data sets. There are groups pursuing this approach though, eg <a href="https://www.prowler.io/">prowler</a> and they have produced amazing work as well.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 <p>They’re are mixed feelings within academia about industrial research labs and

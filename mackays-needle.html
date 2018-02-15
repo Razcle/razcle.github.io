@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+	<meta charset="utf-8">
+	<title>What do I know if I'm ignorant? - Mackay's Needle | Raza Habib</title>
+	<meta name="description" content="Came across another wonderful bit of wisdom from the late great Professor SirDavid Mackay when going back through his text book, Information Theory, Inferenc...">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-Frame-Options" content="sameorigin">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/main.css">
+
+	<!--Favicon-->
+	<link rel="shortcut icon" href="/logo.png" type="image/x-icon">
+
+	<!-- Canonical -->
+	<link rel="canonical" href="/mackays-needle">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/atom+xml" title="Raza Habib" href="/feed.xml" />
+
+	<!-- Font Awesome -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	
+	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+	
+
+	<!-- KaTeX -->
+	
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+	
+
+	<!-- Google Analytics -->
+	
+</head>
+
+  <body>
+    <header class="site-header">
+	<div class="branding">
+		
+		<a href="/">
+			<img class="avatar" src="/img/photo.jpg" alt=""/>
+		</a>
+		
+		<h1 class="site-title">
+			<a href="/">Raza Habib</a>
+		</h1>
+	</div>
+	<nav class="site-nav">
+		<ul>
+                        <!-- <li>
+				<a class="page-link" href="http://localhost:4000">
+					about　
+				</a>
+			</li> -->
+			
+			
+			
+			
+			<li>
+				<a class="page-link" href="/about/">
+					About
+				</a>
+			</li>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<!-- Social icons from Font Awesome, if enabled -->
+			
+
+
+<li>
+	<a href="mailto:raza.habib@cs.ucl.ac.uk" title="Email">
+		<i class="fa fa-fw fa-envelope"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/razcle" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</ul>
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header style="background-image: url('/')">
+    <h1 class="title">What do I know if I'm ignorant? - Mackay's Needle</h1>
+    <div style="padding-top:3%;"></div>
+    <div class="meta">
+      <span class="author">
+        By
+        
+          <a class="author-name" href="http://localhost:4000">Raza Habib</a>
+        
+      </span>
+      <span class="date">Feb 15, 2018</span>
+      <ul>
+        
+
+
+<li>
+	<a href="mailto:raza.habib@cs.ucl.ac.uk" title="Email">
+		<i class="fa fa-fw fa-envelope"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/razcle" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </ul>
+    </div>
+  </header>
+  <section class="post-content"><p>Came across another wonderful bit of wisdom from the late great Professor Sir
+David Mackay when going back through his text book, <em>Information Theory, Inference
+and Learning Algorithms</em>. This is probably one of my favourite books and I keep
+picking up on a little nuances every time I read it.</p>
+
+<p>The chapter I was reading this time is “Random Inference Topics” and the section
+is titled “What do I know if I’m ignorant”. The big takeaway of this section
+is to remind us that ignorance doesn’t necessarily imply uniform distributions over
+possible outcomes. Mackay illustrates this with a few simple puzzles and I particularly
+enjoyed one that I’m calling “Mackay’s Needle”.</p>
+
+<h2 id="mackays-needle">Mackay’s Needle</h2>
+
+<p>There’s a famous probability puzzle knows and Buffon’s needle which asks the following:
+“If I drop a needle onto a stripy floor, what’s the probability that the needle lands
+at the intersection between two stripes?”</p>
+
+<p>“Mackay’s needle” takes a similar flavour and asks the following:</p>
+
+<p>“A pin is thrown tumbling in the air. What is the probability distribution of the angle <script type="math/tex">\theta_1</script> between the pin and the vertical at a moment while it is in the air? The tumbling pin is photographed. What is the probability distribution of the angle <script type="math/tex">\theta_3</script> between the pin and the vertical as imaged in the photograph?”</p>
+
+<h1 id="spoiler-alert">Spoiler ALert</h1>
+<p>The problem is fairly straightforward and if you’d like to solve it yourself then
+I’d advise pausing here.</p>
+
+<h3 id="my-solution">My solution</h3>
+
+<p>A naive first response to this problem is to say that since we know nothing about
+the position of the needle, all angles from the vertical are equally likely. i.e
+we might naively say that <script type="math/tex">\theta_1</script> takes a uniform distribution between <script type="math/tex">0</script> and
+<script type="math/tex">\pi/2</script></p>
+
+<p>If you think about the problem for a little longer you’ll notice that actually
+it isn’t quite that simple. For any value of <script type="math/tex">\theta_1</script> we can rotate the needle
+around the vertical axis by any angle <script type="math/tex">\phi</script> and we still wont change the value of <script type="math/tex">\theta_1</script>.
+For larger values of <script type="math/tex">\theta_1</script> the circle traced out by the tip of the needle as we rotate it
+is bigger, so there are in some sense more ways to achieve larger values of <script type="math/tex">\theta_1</script>.</p>
+
+<p>We can make this more concrete by calculating the density, <script type="math/tex">P(\theta_1)</script>.
+We know that the density will be proportional to the size of the circle traced
+out by the tip of the needle so:</p>
+
+<script type="math/tex; mode=display">P(\theta_1)d\theta_1 \propto \pi r sin(\theta_1) d\theta_1 \propto sin(\theta_1)d\theta_1</script>
+
+<p>Where r is the distance of the centre of the needle to its tip.</p>
+
+<p>Since <script type="math/tex">sin</script> integrates to 1 in the range <script type="math/tex">[0, \pi/2]</script> this is already normalised and so
+we have our denstity <script type="math/tex">P(\theta_1) = sin(\theta_1)</script>.</p>
+
+<p>In the case that we suppress one dimension (like the photograph described above),
+we actually do return to a uniform distribution over <script type="math/tex">\theta</script>.</p>
+</section>
+</article>
+
+<!-- Post navigation -->
+
+
+<!-- Disqus -->
+
+
+    </div>
+    
+<script src="/js/katex_init.js"></script>
+
+
+
+<footer class="site-footer">
+	<p class="text">© 2016 ・ <a class="plain" href="https://github.com/Razcle">Raza</a>
+</p>
+</footer>
+
+
+  </body>
+</html>

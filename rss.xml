@@ -5,7 +5,66 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/</link>
     <description></description>
-    <pubDate>Mon, 29 Jan 2018 22:49:03 +0000</pubDate>
+    <pubDate>Thu, 15 Feb 2018 15:02:06 +0000</pubDate>
+    
+      <item>
+        <title>What do I know if I'm ignorant? - Mackay's Needle</title>
+        <link>/mackays-needle</link>
+        <guid isPermaLink="true">/mackays-needle</guid>
+        <description>&lt;p&gt;Came across another wonderful bit of wisdom from the late great Professor Sir
+David Mackay when going back through his text book, &lt;em&gt;Information Theory, Inference
+and Learning Algorithms&lt;/em&gt;. This is probably one of my favourite books and I keep
+picking up on a little nuances every time I read it.&lt;/p&gt;
+
+&lt;p&gt;The chapter I was reading this time is “Random Inference Topics” and the section
+is titled “What do I know if I’m ignorant”. The big takeaway of this section
+is to remind us that ignorance doesn’t necessarily imply uniform distributions over
+possible outcomes. Mackay illustrates this with a few simple puzzles and I particularly
+enjoyed one that I’m calling “Mackay’s Needle”.&lt;/p&gt;
+
+&lt;h2 id=&quot;mackays-needle&quot;&gt;Mackay’s Needle&lt;/h2&gt;
+
+&lt;p&gt;There’s a famous probability puzzle knows and Buffon’s needle which asks the following:
+“If I drop a needle onto a stripy floor, what’s the probability that the needle lands
+at the intersection between two stripes?”&lt;/p&gt;
+
+&lt;p&gt;“Mackay’s needle” takes a similar flavour and asks the following:&lt;/p&gt;
+
+&lt;p&gt;“A pin is thrown tumbling in the air. What is the probability distribution of the angle &lt;script type=&quot;math/tex&quot;&gt;\theta_1&lt;/script&gt; between the pin and the vertical at a moment while it is in the air? The tumbling pin is photographed. What is the probability distribution of the angle &lt;script type=&quot;math/tex&quot;&gt;\theta_3&lt;/script&gt; between the pin and the vertical as imaged in the photograph?”&lt;/p&gt;
+
+&lt;h1 id=&quot;spoiler-alert&quot;&gt;Spoiler ALert&lt;/h1&gt;
+&lt;p&gt;The problem is fairly straightforward and if you’d like to solve it yourself then
+I’d advise pausing here.&lt;/p&gt;
+
+&lt;h3 id=&quot;my-solution&quot;&gt;My solution&lt;/h3&gt;
+
+&lt;p&gt;A naive first response to this problem is to say that since we know nothing about
+the position of the needle, all angles from the vertical are equally likely. i.e
+we might naively say that &lt;script type=&quot;math/tex&quot;&gt;\theta_1&lt;/script&gt; takes a uniform distribution between &lt;script type=&quot;math/tex&quot;&gt;0&lt;/script&gt; and
+&lt;script type=&quot;math/tex&quot;&gt;\pi/2&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;If you think about the problem for a little longer you’ll notice that actually
+it isn’t quite that simple. For any value of &lt;script type=&quot;math/tex&quot;&gt;\theta_1&lt;/script&gt; we can rotate the needle
+around the vertical axis by any angle &lt;script type=&quot;math/tex&quot;&gt;\phi&lt;/script&gt; and we still wont change the value of &lt;script type=&quot;math/tex&quot;&gt;\theta_1&lt;/script&gt;.
+For larger values of &lt;script type=&quot;math/tex&quot;&gt;\theta_1&lt;/script&gt; the circle traced out by the tip of the needle as we rotate it
+is bigger, so there are in some sense more ways to achieve larger values of &lt;script type=&quot;math/tex&quot;&gt;\theta_1&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;We can make this more concrete by calculating the density, &lt;script type=&quot;math/tex&quot;&gt;P(\theta_1)&lt;/script&gt;.
+We know that the density will be proportional to the size of the circle traced
+out by the tip of the needle so:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(\theta_1)d\theta_1 \propto \pi r sin(\theta_1) d\theta_1 \propto sin(\theta_1)d\theta_1&lt;/script&gt;
+
+&lt;p&gt;Where r is the distance of the centre of the needle to its tip.&lt;/p&gt;
+
+&lt;p&gt;Since &lt;script type=&quot;math/tex&quot;&gt;sin&lt;/script&gt; integrates to 1 in the range &lt;script type=&quot;math/tex&quot;&gt;[0, \pi/2]&lt;/script&gt; this is already normalised and so
+we have our denstity &lt;script type=&quot;math/tex&quot;&gt;P(\theta_1) = sin(\theta_1)&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;In the case that we suppress one dimension (like the photograph described above),
+we actually do return to a uniform distribution over &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 15 Feb 2018 00:00:00 +0000</pubDate>
+      </item>
     
       <item>
         <title>DeepMind at UCL - Academia meets Industry</title>
@@ -51,7 +110,7 @@ of what intelligence is.&lt;/p&gt;
 &lt;p&gt;Colloquially, Legg says “Intelligence measures an agent’s ability to achieve goals in a wide range of
 environments.”&lt;/p&gt;
 
-&lt;p&gt;This definition is remarkably simple and hides a huge amount of thought behind its definition. Hutter and Legg
+&lt;p&gt;This definition is remarkably simple and hides a huge amount of thought behind it. Hutter and Legg
 collected dozens of alternative definitions of intelligence from experts in various fields and this definition somehow manages
 to capture almost all of them. Importantly this definition doesn’t distinguish whether the agent is biological, a human, an animal
 or a silicon based machine. All agents, biological and artificial can be judged under this criterion and measured.&lt;/p&gt;
@@ -63,7 +122,7 @@ or a silicon based machine. All agents, biological and artificial can be judged 
 &lt;p&gt;Where &lt;script type=&quot;math/tex&quot;&gt;\pi&lt;/script&gt; is an agent or policy, &lt;script type=&quot;math/tex&quot;&gt;E&lt;/script&gt; is the space of all “computable reward summable environment measures”,  &lt;script type=&quot;math/tex&quot;&gt;K&lt;/script&gt; is the
 Kolmogorov complexity of the given environment and &lt;script type=&quot;math/tex&quot;&gt;V^\pi_\mu&lt;/script&gt; is the value achieved by that agent in that environment. This definition captures
 the colloquial one given above. Interestingly more complex environments are actually penalised relative to simple ones, this means that advanced but
-highly specialised agents (like a chess computer) would still score poorly on this unvirsal intelligence measure.&lt;/p&gt;
+highly specialised agents (like a chess computer) would still score poorly on this universal intelligence measure.&lt;/p&gt;
 
 &lt;p&gt;In practice the Kolmogorov complexity cant be calculated so this definition is more of a mathematical curiosity then a practical definition.
 None the less, this formal work guides the strategy at DeepMind. They build a wide range of environments of increasing complexity and can measure
@@ -86,9 +145,8 @@ it can operate in “the wild” more easily and can adapt naturally to differen
 &lt;p&gt;The need for grounded cognition is part of the reason why deep learning is such a focus for DeepMind.
 The main strength of deep learning in this regard is that it can directly extract useful features from
 data. It could be argued that non-parametric methods like Support Vector Machines
-or Gaussian Processes can also perform feature extraction/selection and this is true but its much harder
-to reuse the learned features and some of these methods don’t scale well to large data sets. There are groups
-pursuing this approach though, eg &lt;a href=&quot;https://www.prowler.io/&quot;&gt;prowler&lt;/a&gt; and they have produced amazing work as well.&lt;/p&gt;
+or Gaussian Processes can also perform feature extraction/selection and this is true but it’s much harder
+to reuse the (infinite dimensional) learned features and some of these methods don’t scale well to large data sets. There are groups pursuing this approach though, eg &lt;a href=&quot;https://www.prowler.io/&quot;&gt;prowler&lt;/a&gt; and they have produced amazing work as well.&lt;/p&gt;
 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;They’re are mixed feelings within academia about industrial research labs and
