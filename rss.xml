@@ -5,7 +5,64 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>/</link>
     <description></description>
-    <pubDate>Wed, 07 Mar 2018 09:41:56 +0000</pubDate>
+    <pubDate>Wed, 07 Mar 2018 09:42:20 +0000</pubDate>
+    
+      <item>
+        <title>How bad can importance sampling be?</title>
+        <link>/importancesampling</link>
+        <guid isPermaLink="true">/importancesampling</guid>
+        <description>&lt;p&gt;How bad can importance sampling be? Importance sampling is regularly used to estimate
+expectations or simply to reduce variance. In RL its also used to perform off-policy learning.
+If the approximating distribution used is poorly chosen, importance sampling
+can actually increase variance. In fact it’s known that the variance of the importance weights
+can become unbounded. Despite this being common knowledge it’s easy to be lulled into false
+conclusions when using importance sampling. Here’s an incredibly simple 1-d example that
+shows how badly wrong things can go:&lt;/p&gt;
+
+&lt;p&gt;Imagine that our target distribution, &lt;script type=&quot;math/tex&quot;&gt;P(x)&lt;/script&gt; is a zero mean 1-dimensional gaussian with unkown
+variance &lt;script type=&quot;math/tex&quot;&gt;\sigma_p&lt;/script&gt; and that our proposal distribution is ALSO a 1-dimensional zero-mean
+gaussian but with the wrong variance.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/importancesampling1.png&quot; alt=&quot;setup&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This setting might seem like an incredibly benign one
+for importance sampling - the target and approximating distributions are well matched and
+the dimensionality is low! However, lets consider the variance of the importance weights:
+&lt;script type=&quot;math/tex&quot;&gt;W = \frac{P(x)}{Q(x)}&lt;/script&gt;:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_Q(W) = 1&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_Q(W^2) = \int dx \left(\frac{2\pi \sigma_q^2}{2 \pi \sigma_p^2} \right)} \frac{1}{\sqrt{2\pi \sigma_q^2}} e^{  -(\frac{1}{\sigma_p^2} - \frac{1}{\sigma_q^2})x^2 - \frac{x^2}{2\sigma_q^2}&lt;/script&gt;
+
+&lt;p&gt;After some manipulation this gives that:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Var(W) = \frac{\sigma_q^2}{\sigma_p \sqrt{2\sigma_q^2 - \sigma_p^2}}  - 1&lt;/script&gt;
+
+&lt;p&gt;which diverges as &lt;script type=&quot;math/tex&quot;&gt;\sigma_q \rightarrow \frac{\sigma_p}{\sqrt{2}}&lt;/script&gt;!&lt;/p&gt;
+
+&lt;p&gt;However, there would be nothing to stop us performing importance sampling in this case.
+What happens in practice if we try to estimate the normalisation of &lt;script type=&quot;math/tex&quot;&gt;P(x)&lt;/script&gt; (which we know to be one)
+when &lt;script type=&quot;math/tex&quot;&gt;\sigma_q&lt;/script&gt; is small enough for the variance to diverge?&lt;/p&gt;
+
+&lt;p&gt;Below is the estimate for the normalisation along with it’s standard deviation for &lt;script type=&quot;math/tex&quot;&gt;\sigma_p=1&lt;/script&gt;
+and &lt;script type=&quot;math/tex&quot;&gt;\sigma_q&lt;/script&gt; varied between &lt;script type=&quot;math/tex&quot;&gt;0&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;1&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;assets/mean_estimate.png&quot; alt=&quot;mean&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;assets/std_estimate.png&quot; alt=&quot;std&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You can see that when &lt;script type=&quot;math/tex&quot;&gt;\sigma_q&lt;/script&gt; drops below 0.7 the estimate of the normalisation
+is totally wrong but the empirical standard deviation continues to be quite small even
+when the true variance is infinite!&lt;/p&gt;
+
+&lt;p&gt;In this extremely simple case, we can analytically calculate the variance and see that
+our importance sampling estimates are bogus. Despite this, our empirical estimate of the
+standard deviation might lead us to believe that our calculations are fine. This type of
+problem is much harder to diagnose in realistic settings and I dont really have an answer
+as to how to avoid this in practice.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
+      </item>
     
       <item>
         <title>What do I know if I'm ignorant? - Mackay's Needle</title>
