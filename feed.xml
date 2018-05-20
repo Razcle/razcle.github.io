@@ -3,9 +3,46 @@
   <channel>
     <title></title>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <link>/_layouts/about.md/</link>
+    <link>http://localhost:4000/</link>
     <description></description>
-    <pubDate>Wed, 07 Mar 2018 09:42:20 +0000</pubDate>
+    <pubDate>Sun, 20 May 2018 16:15:27 +0100</pubDate>
+    
+      <item>
+        <title>Adaptive MCMC - A cautionary example</title>
+        <link>/adaptiveMCMC</link>
+        <guid isPermaLink="true">/adaptiveMCMC</guid>
+        <description>&lt;p&gt;The goal of adaptive Markov Chain Monte Carlo is to develop 
+more efficient samplers by adapting the Markov transition operator during
+sampling.&lt;/p&gt;
+
+&lt;p&gt;An easy mistake to make is to think that as long as during adaptation the Markov
+operator always has the correct stationary distribution then the overall sampler will be correct
+but this is not true. Here’s a simple intuitive example that shows that this is not correct.
+Imagine that we wish to sample from a Bernoulli distribution  where each state has an equal probability of 
+being sampled. We could doing this by simulating from the Markov chain shown in the picture below. The arrows 
+represent possible transitions and their probabilities.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/adaptivemcmc.png&quot; alt=&quot;my plot&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It’s clear by symmetry that if we start in state 1 and hop along the arrows according to the
+probabilities shown, that we’ll spend an equal amount of time in both states no matter what the value of &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; is. So following
+this Markov chain would allow us to simulate from a fair coin and we could change the starting value of &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; and 
+have no affect.&lt;/p&gt;
+
+&lt;p&gt;What would happen however, if we started simulating this Markov chain and then changed the value of &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;.
+Well initially both states 1 and 2 would be equally likely by symmetry but when I change &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;, lets say 
+made it bigger, then the state the chain is in when &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; becomes bigger
+will now be less likely than the other state. Overall, our chain will no longer
+be simulating from a fair coin. This is despite the fact that if we first fixed &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;
+to any value and then simulated with that fixed &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;, we’d always simulate a fair coin.&lt;/p&gt;
+
+&lt;p&gt;This shows that care must be taken when adapting transitions during MCMC. For most chains
+we can guarantee that adaptation wont break our sampler as long as the amount of adaptation tends to &lt;script type=&quot;math/tex&quot;&gt;0&lt;/script&gt; as 
+the length of the chain tends to infinity. This criterion is known as “vanishing adaptation”. In general
+we should use adaptation with caution.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 20 May 2018 00:00:00 +0100</pubDate>
+      </item>
     
       <item>
         <title>How bad can importance sampling be?</title>

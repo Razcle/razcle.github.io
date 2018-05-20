@@ -2,8 +2,8 @@
 <html class="no-js">
   <head>
 	<meta charset="utf-8">
-	<title>Intuition for Jensen's Inequality | Raza Habib</title>
-	<meta name="description" content="I want to share some neat intuition that I came across in David Mackay’s text bookabout Jensen’s inequality. Jensen’s inequality is a simple enough inequalit...">
+	<title>Adaptive MCMC - A cautionary example | Raza Habib</title>
+	<meta name="description" content="The goal of adaptive Markov Chain Monte Carlo is to develop more efficient samplers by adapting the Markov transition operator duringsampling.">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-Frame-Options" content="sameorigin">
 
@@ -14,7 +14,7 @@
 	<link rel="shortcut icon" href="/logo.png" type="image/x-icon">
 
 	<!-- Canonical -->
-	<link rel="canonical" href="/jensen">
+	<link rel="canonical" href="/adaptiveMCMC">
 
 	<!-- RSS -->
 	<link rel="alternate" type="application/atom+xml" title="Raza Habib" href="/feed.xml" />
@@ -135,7 +135,7 @@
     <div class="content">
       <article >
   <header style="background-image: url('/')">
-    <h1 class="title">Intuition for Jensen's Inequality</h1>
+    <h1 class="title">Adaptive MCMC - A cautionary example</h1>
     <div style="padding-top:3%;"></div>
     <div class="meta">
       <span class="author">
@@ -144,7 +144,7 @@
           <a class="author-name" href="http://localhost:4000">Raza Habib</a>
         
       </span>
-      <span class="date">Apr 20, 2017</span>
+      <span class="date">May 20, 2018</span>
       <ul>
         
 
@@ -201,35 +201,35 @@
       </ul>
     </div>
   </header>
-  <section class="post-content"><p>I want to share some neat intuition that I came across in David Mackay’s text book
-about Jensen’s inequality. Jensen’s inequality is a simple enough inequality that crops up frequently in
-machine learning, especially in variational methods, when one wants to bound an
-expectation.</p>
+  <section class="post-content"><p>The goal of adaptive Markov Chain Monte Carlo is to develop 
+more efficient samplers by adapting the Markov transition operator during
+sampling.</p>
 
-<p>Jensen states that:</p>
+<p>An easy mistake to make is to think that as long as during adaptation the Markov
+operator always has the correct stationary distribution then the overall sampler will be correct
+but this is not true. Here’s a simple intuitive example that shows that this is not correct.
+Imagine that we wish to sample from a Bernoulli distribution  where each state has an equal probability of 
+being sampled. We could doing this by simulating from the Markov chain shown in the picture below. The arrows 
+represent possible transitions and their probabilities.</p>
 
-<script type="math/tex; mode=display">E[f(x)] \geq f(E[x])</script>
+<p><img src="/assets/adaptivemcmc.png" alt="my plot" /></p>
 
-<p>for any convex function f.</p>
+<p>It’s clear by symmetry that if we start in state 1 and hop along the arrows according to the
+probabilities shown, that we’ll spend an equal amount of time in both states no matter what the value of <script type="math/tex">\theta</script> is. So following
+this Markov chain would allow us to simulate from a fair coin and we could change the starting value of <script type="math/tex">\theta</script> and 
+have no affect.</p>
 
-<p>Writing this out more verbosely it states (for discrete distributions):</p>
+<p>What would happen however, if we started simulating this Markov chain and then changed the value of <script type="math/tex">\theta</script>.
+Well initially both states 1 and 2 would be equally likely by symmetry but when I change <script type="math/tex">\theta</script>, lets say 
+made it bigger, then the state the chain is in when <script type="math/tex">\theta</script> becomes bigger
+will now be less likely than the other state. Overall, our chain will no longer
+be simulating from a fair coin. This is despite the fact that if we first fixed <script type="math/tex">\theta</script>
+to any value and then simulated with that fixed <script type="math/tex">\theta</script>, we’d always simulate a fair coin.</p>
 
-<script type="math/tex; mode=display">\sum f(x_i) p_i  \geq f(\sum x_i p_i)</script>
-
-<p>Where <script type="math/tex">p_i = P(X = x_i)</script>.</p>
-
-<p>Now if we imagine that we place a mass of size <script type="math/tex">p_i</script> along the curve <script type="math/tex">f</script> at each of
-the coordinates <script type="math/tex">(x_i, f(x_i))</script> then <script type="math/tex">\sum f(x_i) p_i</script> is simply the y-coordinate of the
-centre of mass (remember <script type="math/tex">\sum p_i = 1</script>). The <script type="math/tex">\sum x_i p_i</script> is the x-coordinate.</p>
-
-<p>Viewed this way, all that Jensen’s inequality says is that for any convex curve, the centre of mass
-of masses placed on the curve, must lie above the curve. That seems intuitively obvious to me in a way that
-isn’t at first clear from staring at the inequality.</p>
-
-<p>The picture below shows some masses placed on a convex curve along with their centre of mass in 2-d.
-It’s hopefully pretty obvious that the centre of mass of these masses has to lie above the curve (and its shown with a cross).</p>
-
-<p><img src="/assets/jensenplot.jpg" alt="my plot" /></p>
+<p>This shows that care must be taken when adapting transitions during MCMC. For most chains
+we can guarantee that adaptation wont break our sampler as long as the amount of adaptation tends to <script type="math/tex">0</script> as 
+the length of the chain tends to infinity. This criterion is known as “vanishing adaptation”. In general
+we should use adaptation with caution.</p>
 </section>
 </article>
 
